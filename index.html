@@ -108,9 +108,123 @@
             max-height: 500px;
             opacity: 1;
         }
+
+        /* --- Auto Popup Form Styles --- */
+        .auto-popup-overlay {
+            position: fixed; inset: 0;
+            background: rgba(26, 2, 10, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 9999; opacity: 0; visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            padding: 1rem; overflow-y: auto;
+        }
+        .auto-popup-overlay.active { opacity: 1; visibility: visible; }
+        .auto-popup-box {
+            transform: scale(0.9) translateY(40px);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .auto-popup-overlay.active .auto-popup-box { transform: scale(1) translateY(0); }
+
+        @media (max-width: 640px) {
+            .auto-popup-box {
+                max-height: 85vh;
+                width: 100%;
+            }
+        }
+
+        /* --- Map Section Responsive Fix --- */
+        .map-section-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        @media (min-width: 1024px) {
+            .map-section-grid {
+                grid-template-columns: repeat(12, 1fr);
+                height: 700px;
+            }
+        }
+        .map-sidebar {
+            height: auto;
+            max-height: 420px;
+        }
+        @media (min-width: 1024px) {
+            .map-sidebar {
+                grid-column: span 4;
+                height: 100%;
+                max-height: none;
+            }
+        }
+        .map-frame-wrapper {
+            height: 350px;
+            position: relative;
+        }
+        @media (min-width: 640px) {
+            .map-frame-wrapper {
+                height: 450px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .map-frame-wrapper {
+                grid-column: span 8;
+                height: 100%;
+            }
+        }
+        .map-frame-wrapper iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
     </style>
 </head>
 <body class="antialiased overflow-x-hidden min-h-screen flex flex-col relative">
+
+    <!-- ================= AUTO POPUP FORM (Appears on Page Load) ================= -->
+    <div id="autoPopup" class="auto-popup-overlay">
+        <div class="auto-popup-box bg-white w-full max-w-[420px] mx-auto rounded-sm shadow-[0_30px_80px_rgba(0,0,0,0.55)] overflow-hidden relative">
+            <div class="h-[3px] w-full bg-gradient-to-r from-gold-dark via-gold to-gold-dark"></div>
+
+            <button id="closeAutoPopup" class="absolute top-3 right-3 z-30 text-gray-400 hover:text-gold transition-colors p-1 rounded-full hover:bg-gray-100" aria-label="Close popup">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+
+            <div class="bg-navy-dark px-6 pt-6 pb-4 text-center relative overflow-hidden">
+                <div class="relative z-10">
+                    <div class="flex justify-center mb-2">
+                        <div class="w-10 h-10 border border-gold/40 rotate-45 flex items-center justify-center">
+                            <span class="text-gold font-serif text-lg -rotate-45 font-semibold">A</span>
+                        </div>
+                    </div>
+                    <p class="text-gold text-[9px] tracking-[0.4em] uppercase font-semibold mb-1">Exclusive Preview</p>
+                    <h3 class="text-white font-serif text-2xl leading-tight tracking-wide">Register Your Interest</h3>
+                    <p class="text-gray-400 text-[10px] tracking-[0.2em] uppercase mt-1">Godrej Altus · Vastrapur</p>
+                </div>
+            </div>
+
+            <div class="px-6 pt-5 pb-6">
+                <p class="text-gray-500 text-xs text-center font-light leading-relaxed mb-5">Get exclusive access to floor plans, pricing and a private walkthrough. Fill in your details below.</p>
+
+                <form id="autoPopupForm" class="space-y-4" onsubmit="event.preventDefault(); alert('Thank you! Our team will contact you shortly.'); closeAutoPopup();">
+                    <div><label class="premium-label">Full Name</label><input type="text" placeholder="Your full name" required class="premium-input"></div>
+                    <div><label class="premium-label">Phone Number</label><input type="tel" placeholder="+91 00000 00000" required class="premium-input"></div>
+                    <div><label class="premium-label">Email Address</label><input type="email" placeholder="you@example.com" required class="premium-input"></div>
+                    <div class="pt-2">
+                        <button type="submit" class="btn-gold-shimmer w-full relative bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-white font-bold py-3.5 rounded-sm transition-all duration-300 text-[11px] tracking-[0.2em] uppercase shadow-[0_8px_24px_rgba(217,26,91,0.35)] hover:shadow-[0_12px_32px_rgba(217,26,91,0.5)] hover:-translate-y-0.5">
+                            <span class="relative z-10 flex items-center justify-center gap-2">
+                                Submit Enquiry
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- ================= GLOBAL SCHEDULE VISIT BUTTON ================= -->
     <!-- This single fixed button is now used across the entire website page -->
@@ -131,13 +245,8 @@
                 </div>
             </a>
 
-            <!-- Right: Icons & Signature Logo -->
+            <!-- Right: Hamburger Menu Icon -->
             <div class="flex items-center gap-6">
-                <!-- Search Icon -->
-                <button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition">
-                    <svg class="w-5 h-5 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                </button>
-                
                 <!-- Hamburger Menu Icon -->
                 <button id="menuToggleBtn" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition group">
                     <div class="w-5 h-4 relative flex flex-col justify-between">
@@ -146,14 +255,6 @@
                         <span class="w-full h-[2px] bg-navy transition-all duration-300 origin-left group-[.is-open]:-rotate-45 group-[.is-open]:-translate-y-[1px]"></span>
                     </div>
                 </button>
-
-                <!-- Signature Logo -->
-                <div class="hidden md:block">
-                    <svg width="80" height="30" viewBox="0 0 100 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M10 30C20 10 30 5 40 15C50 25 60 35 70 20C75 12 85 15 90 25" stroke="#2E0515" stroke-width="2" stroke-linecap="round"/>
-                        <path d="M5 20C15 35 25 40 35 30C45 20 55 10 65 25" stroke="#2E0515" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
-                </div>
             </div>
         </div>
 
@@ -249,19 +350,25 @@
         </div>
     </div>
 
-    <!-- ================= MAIN HERO SECTION ================= -->
-    <main class="flex-grow relative flex flex-col justify-center hero-bg min-h-[calc(100vh-80px)]">
+   <!-- ================= MAIN HERO SECTION ================= -->
+    <main class="flex-grow relative flex flex-col justify-between hero-bg min-h-[calc(100vh-80px)] overflow-hidden">
         
-        <div class="absolute inset-0 hero-overlay"></div>
+        <!-- Background Overlay (Adjusted to match the image vibe) -->
+        <div class="absolute inset-0 bg-gradient-to-b from-[#1A020A]/80 via-transparent to-[#1A020A]/95 md:bg-gradient-to-r md:from-[#1A020A]/95 md:via-[#2E0515]/70 md:to-[#2E0515]/30 pointer-events-none z-0"></div>
 
-        <!-- ================= HERO NAVIGATION (Becomes sticky on scroll) ================= -->
-        <div id="heroNavWrapper" class="absolute top-0 left-0 w-full px-6 md:px-12 py-8 flex justify-between items-center z-20 text-white transition-all duration-300">
-            <a href="index.html" class="flex items-center gap-2 text-sm font-semibold tracking-wider hover:text-gold transition shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                Back
-            </a>
+        <!-- ================= HERO NAVIGATION ================= -->
+        <div id="heroNavWrapper" class="w-full px-4 md:px-12 py-5 flex justify-center md:justify-end items-center z-30 text-white transition-all duration-300">
+            
+            <!-- Mobile Nav (Visible only on small screens, mimicking the image) -->
+            <nav id="heroNavLinks" class="flex lg:hidden items-center justify-between w-full text-[11px] sm:text-sm font-medium tracking-wide">
+                <a href="#overview" class="hover:text-gold transition">Overview</a>
+                <a href="contact.html" class="hover:text-gold transition">Location</a>
+                <a href="residences.html" class="hover:text-gold transition">Price</a>
+                <a href="amenities.html" class="hover:text-gold transition">Amenities</a>
+            </nav>
 
-            <nav id="heroNavLinks" class="hidden lg:flex items-center gap-8 text-sm font-semibold tracking-wider">
+            <!-- Desktop Nav (Visible only on large screens) -->
+            <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold tracking-wider">
                 <a href="#overview" class="hover:text-gold transition whitespace-nowrap">Overview</a>
                 <a href="contact.html" class="hover:text-gold transition whitespace-nowrap">Location</a>
                 <a href="residences.html" class="hover:text-gold transition whitespace-nowrap">Price</a>
@@ -270,35 +377,37 @@
             </nav>
         </div>
 
-        <!-- Center Right: Project Logo & Title -->
-        <div class="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-end items-center h-full pt-16">
-            <div class="text-center md:text-left text-white mt-12 md:mt-0">
-                <p class="text-[10px] tracking-[0.4em] uppercase text-gray-300 mb-4 font-semibold">Introducing</p>
+        <!-- Center Top: Project Logo & Title -->
+        <div class="relative z-10 w-full px-6 flex flex-col items-center justify-start pt-6 md:pt-16 pointer-events-none">
+            <p class="text-[9px] md:text-[10px] tracking-[0.4em] uppercase text-gray-300 mb-4 font-semibold">Introducing</p>
+            
+            <!-- Logo and Text Group -->
+            <div class="flex flex-col items-center justify-center gap-3">
+                <!-- Diamond Logo Shape -->
+                <div class="relative w-12 h-12 md:w-16 md:h-16 flex items-center justify-center">
+                    <div class="absolute w-8 h-8 md:w-10 md:h-10 border border-gold/60 rotate-45 flex items-center justify-center bg-navy/40 backdrop-blur-sm">
+                        <span class="text-gold font-serif text-lg md:text-xl -rotate-45 font-semibold">A</span>
+                    </div>
+                </div>
                 
-                <div class="flex items-center justify-center md:justify-start gap-4 mb-2">
-                    <div class="relative w-16 h-16 flex items-center justify-center">
-                        <div class="absolute w-10 h-10 border border-gold/50 rotate-45 flex items-center justify-center bg-navy/50 backdrop-blur-sm">
-                            <span class="text-gold font-serif text-xl -rotate-45 font-semibold">A</span>
-                        </div>
-                    </div>
-                    <div class="flex flex-col">
-                        <h1 class="text-4xl md:text-5xl font-serif tracking-[0.15em] font-light text-white leading-none">GODREJ ALTUS</h1>
-                        <p class="text-xs md:text-sm tracking-[0.3em] text-gold mt-2 font-sans uppercase">Vastrapur, Ahmedabad</p>
-                    </div>
+                <!-- Brand Text -->
+                <div class="text-center">
+                    <h1 class="text-2xl md:text-4xl font-serif tracking-[0.2em] font-light text-white leading-none whitespace-nowrap">GODREJ ALTUS</h1>
+                    <p class="text-[9px] md:text-xs tracking-[0.3em] text-gray-300 mt-2 font-sans uppercase">Vastrapur, Ahmedabad</p>
                 </div>
             </div>
         </div>
 
         <!-- Bottom Left: Project Details Box -->
-        <div class="absolute bottom-0 left-0 w-full md:w-auto px-6 md:px-12 py-8 bg-gradient-to-t from-black/80 to-transparent md:bg-none z-20">
-            <div class="text-white">
-                <h2 class="text-3xl font-serif mb-1">Godrej Altus</h2>
-                <p class="text-lg font-light text-gray-300 mb-3">Vastrapur, Ahmedabad</p>
-                <div class="flex flex-wrap items-center gap-4 text-sm font-medium text-gray-200">
+        <div class="relative z-20 w-full px-6 md:px-12 py-8 mt-auto flex flex-col items-center md:items-start pointer-events-none">
+            <div class="text-white text-center md:text-left">
+                <h2 class="text-3xl md:text-4xl font-serif mb-1">Godrej Altus</h2>
+                <p class="text-lg font-light text-gray-200 mb-3">Vastrapur, Ahmedabad</p>
+                <div class="flex flex-wrap justify-center md:justify-start items-center gap-x-3 gap-y-1 text-sm font-medium text-gray-200">
                     <span>INR 3.59 Cr. onwards</span>
-                    <span class="w-1.5 h-1.5 bg-gold rounded-full hidden md:block"></span>
+                    <span class="text-gray-400 hidden sm:inline">|</span>
                     <span>Possession November 2031</span>
-                    <span class="w-1.5 h-1.5 bg-gold rounded-full hidden md:block"></span>
+                    <span class="text-gray-400 hidden sm:inline">|</span>
                     <span>3 &amp; 4 BHK</span>
                 </div>
             </div>
@@ -313,17 +422,16 @@
         left: 0;
         right: 0;
         z-index: 999;
-        padding-top: 0.85rem;
-        padding-bottom: 0.85rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
         padding-left: 1rem;
         padding-right: 1rem;
-        background-color: rgba(26, 2, 10, 0.92);
+        background-color: rgba(26, 2, 10, 0.95);
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
         box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         animation: heroSlideDown 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        gap: 1rem;
     }
 
     /* Text forced to white when sticky */
@@ -334,33 +442,7 @@
         color: #D91A5B;
     }
 
-    /* ===== MOBILE STICKY LAYOUT ===== */
-    @media (max-width: 1023px) {
-        #heroNavWrapper.hero-nav-sticky {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 0.65rem;
-        }
-        #heroNavWrapper.hero-nav-sticky > a {
-            font-size: 0.7rem;
-        }
-        /* Links row: horizontal scroll, no wrap */
-        #heroNavWrapper.hero-nav-sticky #heroNavLinks {
-            display: flex;
-            gap: 1.25rem;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            font-size: 0.7rem;
-            letter-spacing: 0.05em;
-            padding-bottom: 0.1rem;
-        }
-        #heroNavWrapper.hero-nav-sticky #heroNavLinks::-webkit-scrollbar {
-            display: none;
-        }
-    }
-
-    /* On desktop sticky, keep original single-row layout */
+    /* On desktop sticky, match padding */
     @media (min-width: 1024px) {
         #heroNavWrapper.hero-nav-sticky {
             padding-left: 3rem;
@@ -384,6 +466,7 @@
         function updateTriggerPoint() {
             const wasSticky = heroNav.classList.contains('hero-nav-sticky');
             if (wasSticky) heroNav.classList.remove('hero-nav-sticky');
+            // Get the original position in the document
             triggerPoint = heroNav.getBoundingClientRect().top + window.pageYOffset;
             if (wasSticky) heroNav.classList.add('hero-nav-sticky');
         }
@@ -415,9 +498,9 @@
     })();
 </script>
 
-    <!-- ========== OVERVIEW SECTION ========== -->
+<!-- ========== OVERVIEW SECTION ========== -->
     <section id="overview" class="py-16 md:py-24 bg-white relative w-full overflow-hidden">
-        <div class="max-w-[1200px] mx-auto px-6 lg:px-8 relative z-10">
+        <div class="max-w-[1000px] mx-auto px-6 lg:px-8 relative z-10">
             
             <!-- Breadcrumbs -->
             <nav class="text-xs text-gray-500 mb-12 flex items-center gap-2 font-sans">
@@ -437,11 +520,33 @@
                 <span class="h-[1px] w-12 md:w-24 bg-gray-200"></span>
             </div>
 
-            <!-- Paragraph Text -->
-            <div class="mb-12">
-                <p class="text-gray-600 text-sm md:text-[15px] leading-relaxed font-light text-justify md:text-left">
+            <!-- Detailed Text Content -->
+            <div class="mb-12 space-y-6 text-gray-600 text-sm md:text-[15px] leading-relaxed font-light text-justify md:text-left">
+                <p>
                     Spread across ~ 12,383 sq. mt. (~ 3.06 acres) in the heart of Vastrapur, Godrej Altus stands as a landmark of thoughtful design and quiet distinction. Expansive greens, curated amenities and sweeping skyline views come together to create a living experience defined by refinement and timeless appeal. From the moment you arrive, every detail reflects understated elegance—crafted to feel seamless, considered and complete.
                 </p>
+                <p>
+                    Set across an expansive ~1,858 sq. mt. (~20,000 sq. ft.) of curated terrace, this rarefied realm reveals a collection of 10+ thoughtfully envisioned amenities, where sky and horizon merge seamlessly. Here, each space is composed in dialogue with the skyline—framing moments that feel both personal and infinite.
+                </p>
+            </div>
+
+            <!-- Key Highlights / Main Points -->
+            <div class="mb-14 bg-gray-50/50 border border-gray-100 p-6 md:p-8 rounded-sm">
+                <h3 class="text-navy font-serif text-xl mb-4">Experience the Infinite</h3>
+                <ul class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm font-light text-gray-600">
+                    <li class="flex items-start gap-3">
+                        <span class="w-1.5 h-1.5 bg-gold rounded-full mt-1.5 shrink-0"></span>
+                        <span>A measured walk along the sky bridge</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="w-1.5 h-1.5 bg-gold rounded-full mt-1.5 shrink-0"></span>
+                        <span>A moment of stillness on the meditation deck</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="w-1.5 h-1.5 bg-gold rounded-full mt-1.5 shrink-0"></span>
+                        <span>An evening beneath a quiet canopy of stars</span>
+                    </li>
+                </ul>
             </div>
 
             <!-- Full Width Image -->
@@ -473,10 +578,10 @@
         </div>
 
         <!-- Main Layout: Grid with Sidebar and Map -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[700px]">
+        <div class="map-section-grid">
             
             <!-- LEFT SIDEBAR: Scrollable List of Locations -->
-            <div class="lg:col-span-4 bg-gray-50 rounded-sm border border-gray-200 flex flex-col h-full overflow-hidden shadow-sm">
+            <div class="map-sidebar bg-gray-50 rounded-sm border border-gray-200 flex flex-col overflow-hidden shadow-sm">
                 <!-- Header -->
                 <div class="p-5 border-b border-gray-200 bg-white sticky top-0 z-10 flex justify-between items-center">
                     <h3 class="text-navy font-serif text-xl">Key Distances</h3>
@@ -589,17 +694,13 @@
             </div>
 
             <!-- RIGHT SIDE: Interactive Google Map -->
-            <div class="lg:col-span-8 relative rounded-sm overflow-hidden shadow-xl border border-gray-200 h-full">
+            <div class="map-frame-wrapper rounded-sm overflow-hidden shadow-xl border border-gray-200">
                 <!-- The Iframe Map -->
                 <iframe 
                     id="googleMap"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14681.895374266782!2d72.5003719!3d23.0359209!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sVastrapur%2C%20Ahmedabad%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
-                    width="100%" 
-                    height="100%" 
-                    style="border:0;" 
                     allowfullscreen="" 
-                    loading="lazy" 
-                    class="absolute inset-0 w-full h-full">
+                    loading="lazy">
                 </iframe>
                 
                 <!-- Floating Instruction Card (Bottom Center) -->
@@ -1274,6 +1375,38 @@
                 isMenuOpen = false;
             }
         });
+
+        // --- Auto Popup Logic ---
+        const autoPopup = document.getElementById('autoPopup');
+        const closeAutoPopupBtn = document.getElementById('closeAutoPopup');
+
+        // Show popup after a short delay when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                autoPopup.classList.add('active');
+            }, 800);
+        });
+
+        // Close popup on button click
+        closeAutoPopupBtn.addEventListener('click', closeAutoPopup);
+
+        // Close popup on overlay click
+        autoPopup.addEventListener('click', (e) => {
+            if (e.target === autoPopup) {
+                closeAutoPopup();
+            }
+        });
+
+        // Close popup on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && autoPopup.classList.contains('active')) {
+                closeAutoPopup();
+            }
+        });
+
+        function closeAutoPopup() {
+            autoPopup.classList.remove('active');
+        }
     </script>
 </body>
 </html>
