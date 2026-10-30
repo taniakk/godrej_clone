@@ -350,7 +350,7 @@
         </div>
     </div>
 
-   <!-- ================= MAIN HERO SECTION ================= -->
+<!-- ================= MAIN HERO SECTION ================= -->
     <main class="flex-grow relative flex flex-col justify-between hero-bg min-h-[calc(100vh-80px)] overflow-hidden">
         
         <!-- Background Overlay (Adjusted to match the image vibe) -->
@@ -415,6 +415,14 @@
     </main>
 
 <style>
+    /* Hero background image */
+    .hero-bg {
+        background-image: url('https://ik.imagekit.io/iuiy6mihw/godrej/godrej_clone5.jpeg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
     /* Hero nav becomes sticky at top when scrolled past its original position */
     #heroNavWrapper.hero-nav-sticky {
         position: fixed;
@@ -551,7 +559,7 @@
 
             <!-- Full Width Image -->
             <div class="relative w-full h-[400px] md:h-[600px] overflow-hidden rounded-sm shadow-xl">
-                <img src="https://ik.imagekit.io/iuiy6mihw/godrej/4bhk%20card.avif?updatedAt=1792924247008" 
+                <img src="https://ik.imagekit.io/iuiy6mihw/godrej/godrej_clone2.jpeg" 
                      alt="Godrej Altus Overview" 
                      class="w-full h-full object-cover transition-transform duration-[1500ms] hover:scale-105">
                 
@@ -561,7 +569,7 @@
         </div>
     </section>
 
-    <!-- ========== NEIGHBOURHOOD SECTION ========== -->
+<!-- ========== NEIGHBOURHOOD SECTION ========== -->
 <section id="location" class="py-16 md:py-24 bg-white relative w-full overflow-hidden">
     <div class="max-w-[1400px] mx-auto px-6 lg:px-8 relative z-10">
         
@@ -597,33 +605,48 @@
                     <div>
                         <h4 class="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-3 ml-1">Education &amp; Healthcare</h4>
                         <div class="space-y-2">
-                            <button onclick="updateMap('IIM Ahmedabad, Vastrapur, Ahmedabad', 'IIM Ahmedabad', 'Premier Institute')" class="w-full text-left bg-white p-4 rounded-sm border border-gray-200 hover:border-gold hover:shadow-md transition-all duration-300 group flex items-start gap-4">
+                            <button onclick="updateMap('IIM Ahmedabad, Vastrapur, Ahmedabad', 'IIM Ahmedabad', 'Premier Institute', '10 mins')" class="w-full text-left bg-white p-4 rounded-sm border border-gray-200 hover:border-gold hover:shadow-md transition-all duration-300 group flex items-start gap-4">
                                 <div class="w-8 h-8 shrink-0 flex items-center justify-center mt-1">
                                     <svg class="w-6 h-6 text-gray-400 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" /></svg>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-semibold text-navy group-hover:text-gold transition-colors">IIM Ahmedabad</p>
-                                    <p class="text-[11px] text-gray-500 mt-0.5">Premier Institute</p>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-sm font-semibold text-navy group-hover:text-gold transition-colors">IIM Ahmedabad</p>
+                                            <p class="text-[11px] text-gray-500 mt-0.5">Premier Institute</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-gold whitespace-nowrap ml-2">10 mins</span>
+                                    </div>
                                 </div>
                             </button>
                             
-                            <button onclick="updateMap('Zydus School, Vastrapur, Ahmedabad', 'Zydus School & Riverside School', 'Within 5 km')" class="w-full text-left bg-white p-4 rounded-sm border border-gray-200 hover:border-gold hover:shadow-md transition-all duration-300 group flex items-start gap-4">
+                            <button onclick="updateMap('Zydus School, Vastrapur, Ahmedabad', 'Zydus School & Riverside School', 'Within 5 km', '12 mins')" class="w-full text-left bg-white p-4 rounded-sm border border-gray-200 hover:border-gold hover:shadow-md transition-all duration-300 group flex items-start gap-4">
                                 <div class="w-8 h-8 shrink-0 flex items-center justify-center mt-1">
                                     <svg class="w-6 h-6 text-gray-400 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" /></svg>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-semibold text-navy group-hover:text-gold transition-colors">Zydus School &amp; Riverside</p>
-                                    <p class="text-[11px] text-gray-500 mt-0.5">Within 5 km</p>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-sm font-semibold text-navy group-hover:text-gold transition-colors">Zydus School &amp; Riverside</p>
+                                            <p class="text-[11px] text-gray-500 mt-0.5">Within 5 km</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-gold whitespace-nowrap ml-2">12 mins</span>
+                                    </div>
                                 </div>
                             </button>
 
-                            <button onclick="updateMap('Sterling Hospital, Ahmedabad', 'Sterling & CIMS Hospitals', '5 - 8 km')" class="w-full text-left bg-white p-4 rounded-sm border border-gray-200 hover:border-gold hover:shadow-md transition-all duration-300 group flex items-start gap-4">
+                            <button onclick="updateMap('Sterling Hospital, Ahmedabad', 'Sterling & CIMS Hospitals', '5 - 8 km', '18 mins')" class="w-full text-left bg-white p-4 rounded-sm border border-gray-200 hover:border-gold hover:shadow-md transition-all duration-300 group flex items-start gap-4">
                                 <div class="w-8 h-8 shrink-0 flex items-center justify-center mt-1">
                                     <svg class="w-6 h-6 text-gray-400 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-semibold text-navy group-hover:text-gold transition-colors">Sterling &amp; CIMS Hospitals</p>
-                                    <p class="text-[11px] text-gray-500 mt-0.5">5 - 8 km</p>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-sm font-semibold text-navy group-hover:text-gold transition-colors">Sterling &amp; CIMS Hospitals</p>
+                                            <p class="text-[11px] text-gray-500 mt-0.5">5 - 8 km</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-gold whitespace-nowrap ml-2">18 mins</span>
+                                    </div>
                                 </div>
                             </button>
                         </div>
@@ -633,23 +656,48 @@
                     <div>
                         <h4 class="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-3 ml-1">Retail &amp; Lifestyle</h4>
                         <div class="space-y-2">
-                            <button onclick="updateMap('Ahmedabad One Mall, Vastrapur, Ahmedabad', 'Ahmedabad One Mall', '800 m')" class="w-full text-left bg-white p-4 rounded-sm border border-gray-200 hover:border-gold hover:shadow-md transition-all duration-300 group flex items-start gap-4">
+                            <button onclick="updateMap('Ahmedabad One Mall, Vastrapur, Ahmedabad', 'Ahmedabad One Mall', '800 m', '4 mins')" class="w-full text-left bg-white p-4 rounded-sm border border-gray-200 hover:border-gold hover:shadow-md transition-all duration-300 group flex items-start gap-4">
                                 <div class="w-8 h-8 shrink-0 flex items-center justify-center mt-1">
                                     <svg class="w-6 h-6 text-gray-400 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-semibold text-navy group-hover:text-gold transition-colors">Ahmedabad One Mall</p>
-                                    <p class="text-[11px] text-gray-500 mt-0.5">800 m</p>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-sm font-semibold text-navy group-hover:text-gold transition-colors">Ahmedabad One Mall</p>
+                                            <p class="text-[11px] text-gray-500 mt-0.5">800 m</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-gold whitespace-nowrap ml-2">4 mins</span>
+                                    </div>
                                 </div>
                             </button>
                             
-                            <button onclick="updateMap('Himalaya Mall, Drive In Road, Ahmedabad', 'Himalaya Mall', '1 km')" class="w-full text-left bg-white p-4 rounded-sm border border-gray-200 hover:border-gold hover:shadow-md transition-all duration-300 group flex items-start gap-4">
+                            <button onclick="updateMap('Himalaya Mall, Drive In Road, Ahmedabad', 'Himalaya Mall', '1 km', '5 mins')" class="w-full text-left bg-white p-4 rounded-sm border border-gray-200 hover:border-gold hover:shadow-md transition-all duration-300 group flex items-start gap-4">
                                 <div class="w-8 h-8 shrink-0 flex items-center justify-center mt-1">
                                     <svg class="w-6 h-6 text-gray-400 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-semibold text-navy group-hover:text-gold transition-colors">Himalaya Mall</p>
-                                    <p class="text-[11px] text-gray-500 mt-0.5">1 km</p>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-sm font-semibold text-navy group-hover:text-gold transition-colors">Himalaya Mall</p>
+                                            <p class="text-[11px] text-gray-500 mt-0.5">1 km</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-gold whitespace-nowrap ml-2">5 mins</span>
+                                    </div>
+                                </div>
+                            </button>
+
+                            <button onclick="updateMap('Vastrapur Lakefront, Ahmedabad', 'Vastrapur Lakefront', 'Cafes & Dining', '2 mins')" class="w-full text-left bg-white p-4 rounded-sm border border-gray-200 hover:border-gold hover:shadow-md transition-all duration-300 group flex items-start gap-4">
+                                <div class="w-8 h-8 shrink-0 flex items-center justify-center mt-1">
+                                    <svg class="w-6 h-6 text-gray-400 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12h18M3 6h18M3 18h18" /></svg>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-sm font-semibold text-navy group-hover:text-gold transition-colors">Vastrapur Lakefront</p>
+                                            <p class="text-[11px] text-gray-500 mt-0.5">Cafes &amp; Dining</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-gold whitespace-nowrap ml-2">2 mins</span>
+                                    </div>
                                 </div>
                             </button>
                         </div>
@@ -659,33 +707,48 @@
                     <div>
                         <h4 class="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-3 ml-1">Connectivity</h4>
                         <div class="space-y-2">
-                            <button onclick="updateMap('Gurukul Road Metro Station, Ahmedabad', 'Gurukul Metro Station', '2 km')" class="w-full text-left bg-white p-4 rounded-sm border border-gray-200 hover:border-gold hover:shadow-md transition-all duration-300 group flex items-start gap-4">
+                            <button onclick="updateMap('Gurukul Road Metro Station, Ahmedabad', 'Gurukul Metro Station', '2 km', '6 mins')" class="w-full text-left bg-white p-4 rounded-sm border border-gray-200 hover:border-gold hover:shadow-md transition-all duration-300 group flex items-start gap-4">
                                 <div class="w-8 h-8 shrink-0 flex items-center justify-center mt-1">
                                     <svg class="w-6 h-6 text-gray-400 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-semibold text-navy group-hover:text-gold transition-colors">Gurukul Metro Station</p>
-                                    <p class="text-[11px] text-gray-500 mt-0.5">2 km</p>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-sm font-semibold text-navy group-hover:text-gold transition-colors">Gurukul Metro Station</p>
+                                            <p class="text-[11px] text-gray-500 mt-0.5">2 km</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-gold whitespace-nowrap ml-2">6 mins</span>
+                                    </div>
                                 </div>
                             </button>
                             
-                            <button onclick="updateMap('SG Highway, Ahmedabad', 'SG Highway', '2 km')" class="w-full text-left bg-white p-4 rounded-sm border border-gray-200 hover:border-gold hover:shadow-md transition-all duration-300 group flex items-start gap-4">
+                            <button onclick="updateMap('SG Highway, Ahmedabad', 'SG Highway', '2 km', '5 mins')" class="w-full text-left bg-white p-4 rounded-sm border border-gray-200 hover:border-gold hover:shadow-md transition-all duration-300 group flex items-start gap-4">
                                 <div class="w-8 h-8 shrink-0 flex items-center justify-center mt-1">
                                     <svg class="w-6 h-6 text-gray-400 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-semibold text-navy group-hover:text-gold transition-colors">SG Highway</p>
-                                    <p class="text-[11px] text-gray-500 mt-0.5">2 km</p>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-sm font-semibold text-navy group-hover:text-gold transition-colors">SG Highway</p>
+                                            <p class="text-[11px] text-gray-500 mt-0.5">2 km</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-gold whitespace-nowrap ml-2">5 mins</span>
+                                    </div>
                                 </div>
                             </button>
                             
-                            <button onclick="updateMap('Ahmedabad Railway Station, Ahmedabad', 'Ahmedabad Railway Station', '25 mins')" class="w-full text-left bg-white p-4 rounded-sm border border-gray-200 hover:border-gold hover:shadow-md transition-all duration-300 group flex items-start gap-4">
+                            <button onclick="updateMap('Ahmedabad Railway Station, Ahmedabad', 'Ahmedabad Railway Station', 'Regional Access', '25 mins')" class="w-full text-left bg-white p-4 rounded-sm border border-gray-200 hover:border-gold hover:shadow-md transition-all duration-300 group flex items-start gap-4">
                                 <div class="w-8 h-8 shrink-0 flex items-center justify-center mt-1">
                                     <svg class="w-6 h-6 text-gray-400 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-semibold text-navy group-hover:text-gold transition-colors">Ahmedabad Railway Station</p>
-                                    <p class="text-[11px] text-gray-500 mt-0.5">25 mins</p>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-sm font-semibold text-navy group-hover:text-gold transition-colors">Ahmedabad Railway Station</p>
+                                            <p class="text-[11px] text-gray-500 mt-0.5">Regional Access</p>
+                                        </div>
+                                        <span class="text-xs font-medium text-gold whitespace-nowrap ml-2">25 mins</span>
+                                    </div>
                                 </div>
                             </button>
                         </div>
@@ -694,11 +757,11 @@
             </div>
 
             <!-- RIGHT SIDE: Interactive Google Map -->
-            <div class="map-frame-wrapper rounded-sm overflow-hidden shadow-xl border border-gray-200">
-                <!-- The Iframe Map -->
+            <div class="map-frame-wrapper rounded-sm overflow-hidden shadow-xl border border-gray-200 relative">
+                <!-- The Iframe Map - Focused on Godrej Altus -->
                 <iframe 
                     id="googleMap"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14681.895374266782!2d72.5003719!3d23.0359209!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sVastrapur%2C%20Ahmedabad%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
+                    src="https://maps.google.com/maps?q=Godrej%20Altus%2C%20Vastrapur%2C%20Ahmedabad&t=&z=15&ie=UTF8&iwloc=&output=embed" 
                     allowfullscreen="" 
                     loading="lazy">
                 </iframe>
@@ -718,29 +781,15 @@
 
 <!-- ================= SCRIPT FOR DYNAMIC MAP UPDATES ================= -->
 <script>
-    function updateMap(destinationQuery, locationName, distanceText) {
-        // The base Google Maps Embed API URL
-        // Note: For production, replace YOUR_API_KEY with a valid Google Maps API Key that has the Embed API enabled.
-        // For demonstration, we are using a public embed URL structure.
-        
-        const apiKey = 'YOUR_API_KEY'; // Replace with your actual API Key
+    function updateMap(destinationQuery, locationName, distanceText, timeText) {
+        // Build a directions embed URL without an API key
         const origin = 'Godrej Altus, Vastrapur, Ahmedabad';
+        const mapUrl = `https://maps.google.com/maps?saddr=${encodeURIComponent(origin)}&daddr=${encodeURIComponent(destinationQuery)}&output=embed&z=14`;
         
-        // If you have an API Key, use the Directions API embed format:
-        // const mapUrl = `https://www.google.com/maps/embed/v1/directions?key=${apiKey}&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destinationQuery)}&mode=driving`;
-        
-        // Since we don't have a specific API key, we will use a standard search query embed which highlights the destination.
-        // To show routing without an API key, you can use the standard maps embed with directions:
-        const mapUrl = `https://maps.google.com/maps?q=${encodeURIComponent(destinationQuery)}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
-        
-        // Alternatively, to show a route without an API key, you can use:
-        // const mapUrl = `https://maps.google.com/maps?saddr=${encodeURIComponent(origin)}&daddr=${encodeURIComponent(destinationQuery)}&output=embed`;
-
-        // Update the iframe source
+        // Update the iframe source to show directions from Godrej Altus to destination
         document.getElementById('googleMap').src = mapUrl;
         
-        // Optional: If you want to show the info in a toast or console
-        console.log(`Showing route to: ${locationName} (${distanceText})`);
+        console.log(`Showing route to: ${locationName} (${distanceText} · ${timeText})`);
     }
 </script>
 
@@ -818,7 +867,7 @@
                 <div class="flex items-start gap-2 mt-5 ml-2">
                     <svg class="w-4 h-4 text-gray-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     <p class="text-gray-500 text-[11px] leading-relaxed font-light">
-                        GST, AMC, IFMS &amp; other charges additional. Prices are subject to change without prior notice.
+                        Additional charges and Government taxes (GST, stamp duty, registration, AMC, IFMS &amp; other statutory levies) extra as applicable.
                     </p>
                 </div>
             </div>
@@ -894,31 +943,29 @@
         -webkit-appearance: none;
         width: 100%;
         height: 4px;
-        background: #f4e6ec; /* Very light brand color */
+        background: #f4e6ec;
         outline: none;
         border-radius: 2px;
         position: relative;
     }
 
-    /* The filled progress part of the slider */
     .custom-slider::-webkit-slider-runnable-track {
         background: linear-gradient(to right, #D91A5B var(--slider-fill, 0%), #f4e6ec var(--slider-fill, 0%));
         height: 4px;
         border-radius: 2px;
     }
 
-    /* Thumb (The draggable button) */
     .custom-slider::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
         width: 24px;
         height: 24px;
         border-radius: 50%;
-        background: #D91A5B; /* Brand Gold/Pink */
+        background: #D91A5B;
         border: 3px solid white;
         cursor: pointer;
         box-shadow: 0 2px 6px rgba(217, 26, 91, 0.4);
-        margin-top: -10px; /* Center it on the track */
+        margin-top: -10px;
         transition: transform 0.2s;
     }
 
@@ -938,12 +985,10 @@
 </style>
 
 <script>
-    // Format numbers with commas
     function formatNumber(num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-    // Remove commas to get pure number
     function parseNumber(str) {
         return parseFloat(str.replace(/,/g, '')) || 0;
     }
@@ -954,19 +999,16 @@
         const durationSlider = document.getElementById('durationSlider');
         const interestSlider = document.getElementById('interestSlider');
 
-        // Get Values
         let loanAmount = parseNumber(loanInput.value);
         const advancePercent = parseFloat(advanceSlider.value);
         const durationYears = parseFloat(durationSlider.value);
         const interestRate = parseFloat(interestSlider.value);
 
-        // Update Displays
         const advanceAmount = (loanAmount * advancePercent) / 100;
         document.getElementById('advanceDisplay').textContent = formatNumber(Math.round(advanceAmount));
         document.getElementById('durationDisplay').textContent = durationYears + ' Years';
         document.getElementById('interestDisplay').textContent = interestRate + '%';
 
-        // Update Slider Track Fill (Visual Only)
         [advanceSlider, durationSlider, interestSlider].forEach(slider => {
             const min = parseFloat(slider.min);
             const max = parseFloat(slider.max);
@@ -975,7 +1017,6 @@
             slider.style.setProperty('--slider-fill', percent + '%');
         });
 
-        // Math for EMI
         const principal = loanAmount - advanceAmount;
         const r = interestRate / 12 / 100;
         const n = durationYears * 12;
@@ -987,11 +1028,9 @@
             emi = principal / n;
         }
 
-        // Output
         document.getElementById('emiResult').textContent = formatNumber(Math.round(emi));
     }
 
-    // Allow typing in the loan input to format with commas
     document.getElementById('loanAmountInput').addEventListener('input', function(e) {
         let cursorPosition = this.selectionStart;
         let originalLength = this.value.length;
@@ -1006,7 +1045,6 @@
         updateEMI();
     });
 
-    // Initialize on load
     updateEMI();
 </script>
 
@@ -1021,89 +1059,33 @@
             <span class="h-[1px] w-10 sm:w-16 md:w-32 bg-gray-200"></span>
         </div>
 
-        <!-- Slider Container -->
-        <div class="relative w-full overflow-hidden" id="galleryContainer" onmouseenter="pauseSlider()" onmouseleave="startSlider()" ontouchstart="pauseSlider()" ontouchend="startSlider()">
+        <!-- Infinite Gallery Container -->
+        <div class="relative w-full overflow-hidden" id="galleryContainer">
             
-            <!-- Prev Arrow (hidden on desktop, visible on mobile) -->
-            <button onclick="prevSlide()" aria-label="Previous"
-                class="md:hidden absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm shadow-lg flex items-center justify-center text-navy active:scale-95 transition-transform">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <!-- Prev Arrow -->
+            <button onclick="manualStep(-1)" aria-label="Previous"
+                class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 backdrop-blur-sm shadow-lg flex items-center justify-center text-navy hover:bg-white active:scale-95 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
                 </svg>
             </button>
 
-            <!-- Next Arrow (hidden on desktop, visible on mobile) -->
-            <button onclick="nextSlide()" aria-label="Next"
-                class="md:hidden absolute right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm shadow-lg flex items-center justify-center text-navy active:scale-95 transition-transform">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <!-- Next Arrow -->
+            <button onclick="manualStep(1)" aria-label="Next"
+                class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 backdrop-blur-sm shadow-lg flex items-center justify-center text-navy hover:bg-white active:scale-95 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
                 </svg>
             </button>
 
-            <!-- Slides Wrapper -->
-            <div id="galleryTrack" class="flex transition-transform duration-700 ease-in-out" style="transform: translateX(0%);">
-                
-                <!-- Page 1 (3 Images on desktop, 1 on mobile) -->
-                <div class="w-full flex-shrink-0">
-                    <!-- Mobile view: single image -->
-                    <div class="md:hidden px-1">
-                        <div class="relative group overflow-hidden rounded-sm h-[280px] sm:h-[360px]">
-                            <img src="https://ik.imagekit.io/iuiy6mihw/godrej/godrej1.webp" alt="Gallery Image 1" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-navy/10"></div>
-                        </div>
-                    </div>
-                    <!-- Desktop view: 3-image grid -->
-                    <div class="hidden md:grid grid-cols-3 gap-4 md:gap-6 px-1">
-                        <div class="relative group overflow-hidden rounded-sm h-[400px]">
-                            <img src="https://ik.imagekit.io/iuiy6mihw/godrej/godrej1.webp" alt="Gallery Image 1" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-navy/10 group-hover:bg-transparent transition-colors duration-500"></div>
-                        </div>
-                        <div class="relative group overflow-hidden rounded-sm h-[400px]">
-                            <img src="https://ik.imagekit.io/iuiy6mihw/godrej/4bhk%20card.avif" alt="Gallery Image 2" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-navy/10 group-hover:bg-transparent transition-colors duration-500"></div>
-                        </div>
-                        <div class="relative group overflow-hidden rounded-sm h-[400px]">
-                            <img src="https://ik.imagekit.io/iuiy6mihw/godrej/vision.avif" alt="Gallery Image 3" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-navy/10 group-hover:bg-transparent transition-colors duration-500"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Page 2 (3 Images on desktop, 1 on mobile) -->
-                <div class="w-full flex-shrink-0">
-                    <div class="md:hidden px-1">
-                        <div class="relative group overflow-hidden rounded-sm h-[280px] sm:h-[360px]">
-                            <img src="https://ik.imagekit.io/iuiy6mihw/godrej/4bhk%20card.avif" alt="Gallery Image 4" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-navy/10"></div>
-                        </div>
-                    </div>
-                    <div class="hidden md:grid grid-cols-3 gap-4 md:gap-6 px-1">
-                        <div class="relative group overflow-hidden rounded-sm h-[400px]">
-                            <img src="https://ik.imagekit.io/iuiy6mihw/godrej/godrej1.webp" alt="Gallery Image 4" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-navy/10 group-hover:bg-transparent transition-colors duration-500"></div>
-                        </div>
-                        <div class="relative group overflow-hidden rounded-sm h-[400px]">
-                            <img src="https://ik.imagekit.io/iuiy6mihw/godrej/4bhk%20card.avif" alt="Gallery Image 5" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-navy/10 group-hover:bg-transparent transition-colors duration-500"></div>
-                        </div>
-                        <div class="relative group overflow-hidden rounded-sm h-[400px]">
-                            <img src="https://ik.imagekit.io/iuiy6mihw/godrej/vision.avif" alt="Gallery Image 6" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-navy/10 group-hover:bg-transparent transition-colors duration-500"></div>
-                        </div>
-                    </div>
-                </div>
-
+            <!-- Track -->
+            <div id="galleryTrack" class="flex gap-4 md:gap-6 cursor-grab active:cursor-grabbing select-none will-change-transform">
+                <!-- Cards injected by JS -->
             </div>
         </div>
 
-        <!-- Pagination Dashes -->
-        <div class="flex items-center justify-center gap-3 mt-8 md:mt-10 mb-8">
-            <button onclick="goToSlide(0)" class="pagination-dash active w-8 h-[2px] bg-navy transition-all duration-300" aria-label="Slide 1"></button>
-            <button onclick="goToSlide(1)" class="pagination-dash w-8 h-[2px] bg-gray-300 transition-all duration-300 hover:bg-gray-400" aria-label="Slide 2"></button>
-        </div>
-
         <!-- View Gallery Button -->
-        <div class="text-center px-6" data-aos="fade-up">
+        <div class="text-center mt-10 md:mt-14 px-6" data-aos="fade-up">
             <a href="#" class="inline-block border border-gray-800 text-gray-800 hover:border-gold hover:text-gold px-8 md:px-10 py-3 rounded-sm font-sans text-xs md:text-sm tracking-wider transition-all duration-300">
                 View Gallery
             </a>
@@ -1113,86 +1095,238 @@
 </section>
 
 <style>
-    .pagination-dash.active {
-        background-color: #1A020A;
-        width: 2.5rem;
+    #galleryTrack img {
+        -webkit-user-drag: none;
+        user-select: none;
+    }
+    #galleryContainer {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    #galleryContainer::-webkit-scrollbar {
+        display: none;
     }
 </style>
 
 <script>
-    let currentSlide = 0;
-    const totalSlides = 2;
-    const track = document.getElementById('galleryTrack');
-    const dashes = document.querySelectorAll('.pagination-dash');
+    (function () {
+        const IMAGES = [
+            'https://ik.imagekit.io/iuiy6mihw/godrej/godrej_clone4.jpeg',
+            'https://ik.imagekit.io/iuiy6mihw/godrej/godrej_clone9.jpeg',
+            'https://ik.imagekit.io/iuiy6mihw/godrej/godrej_clone8.jpeg',
+            'https://ik.imagekit.io/iuiy6mihw/godrej/godrej_clone11.webp',
+            'https://ik.imagekit.io/iuiy6mihw/godrej/godrej_clone3.jpeg',
+            'https://ik.imagekit.io/iuiy6mihw/godrej/godrej_clone1.jpeg'
+        ];
 
-    let autoPlayInterval;
-    const slideDuration = 4000;
+        const track = document.getElementById('galleryTrack');
+        const container = document.getElementById('galleryContainer');
 
-    // Touch swipe support
-    let touchStartX = 0;
-    let touchEndX = 0;
-    const container = document.getElementById('galleryContainer');
-
-    container.addEventListener('touchstart', e => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    container.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, { passive: true });
-
-    function handleSwipe() {
-        const swipeThreshold = 50;
-        const diff = touchStartX - touchEndX;
-        if (Math.abs(diff) < swipeThreshold) return;
-        if (diff > 0) {
-            // Swiped left → next
-            nextSlide();
-        } else {
-            // Swiped right → prev
-            prevSlide();
+        function buildCard(src, index) {
+            const card = document.createElement('div');
+            card.className = 'flex-shrink-0 relative group overflow-hidden rounded-sm h-[280px] sm:h-[340px] md:h-[400px] w-[260px] sm:w-[320px] md:w-[380px]';
+            card.innerHTML = `
+                <img src="${src}" alt="Gallery Image ${index + 1}" class="w-full h-full object-cover pointer-events-none transition-transform duration-1000 group-hover:scale-105">
+                <div class="absolute inset-0 bg-navy/10 group-hover:bg-transparent transition-colors duration-500 pointer-events-none"></div>
+            `;
+            return card;
         }
-    }
 
-    function goToSlide(index) {
-        if (index < 0 || index >= totalSlides) return;
-        currentSlide = index;
-        track.style.transform = `translateX(-${currentSlide * 100}%)`;
+        // Duplicate so the loop is seamless
+        const doubled = [...IMAGES, ...IMAGES];
+        doubled.forEach((src, i) => track.appendChild(buildCard(src, i)));
 
-        dashes.forEach((dash, i) => {
-            if (i === currentSlide) {
-                dash.classList.add('active');
-                dash.classList.remove('bg-gray-300');
+        /* ============ CONFIG ============ */
+        const STEP_DURATION  = 700;
+        const PAUSE_DURATION = 1400;
+        let offset = 0;
+        let halfWidth = 0;
+        let cardStep = 0;
+        let lastTime = null;
+        let paused = false;
+
+        // Step animation state
+        let isStepping = false;
+        let stepStart = 0;
+        let stepTarget = 0;
+        let stepStartTime = 0;
+        let pauseUntil = 0;
+
+        // Drag state
+        let isDragging = false;
+        let dragStartX = 0;
+        let dragStartOffset = 0;
+        let velocity = 0;
+        let lastMoveX = 0;
+        let lastMoveTime = 0;
+
+        function measure() {
+            const cards = track.children;
+            if (cards.length === 0) return;
+            const half = cards.length / 2;
+            const gap = parseFloat(getComputedStyle(track).gap) || 0;
+            let w = 0;
+            for (let i = 0; i < half; i++) {
+                w += cards[i].offsetWidth + (i < half - 1 ? gap : 0);
+            }
+            halfWidth = w + gap;
+            cardStep = cards[0].offsetWidth + gap;
+        }
+
+        function applyOffset() {
+            track.style.transform = `translate3d(${offset}px, 0, 0)`;
+        }
+
+        function wrapOffset() {
+            if (halfWidth <= 0) return;
+            while (offset <= -halfWidth) offset += halfWidth;
+            while (offset > 0) offset -= halfWidth;
+        }
+
+        function startStep(direction) {
+            stepStart = offset;
+            stepTarget = offset - direction * cardStep;
+            stepStartTime = performance.now();
+            isStepping = true;
+        }
+
+        window.manualStep = function (direction) {
+            if (isDragging) return;
+            pauseUntil = 0;
+            if (isStepping) {
+                offset = stepTarget;
+                isStepping = false;
+            }
+            startStep(direction);
+            lastTime = null;
+        };
+
+        function tick(time) {
+            if (lastTime == null) lastTime = time;
+            const dt = Math.min((time - lastTime) / 1000, 0.05);
+            lastTime = time;
+
+            if (isDragging) {
+                requestAnimationFrame(tick);
+                return;
+            }
+
+            if (isStepping) {
+                const elapsed = time - stepStartTime;
+                const t = Math.min(elapsed / STEP_DURATION, 1);
+                const eased = 1 - Math.pow(1 - t, 3);
+                offset = stepStart + (stepTarget - stepStart) * eased;
+                applyOffset();
+
+                if (t >= 1) {
+                    offset = stepTarget;
+                    wrapOffset();
+                    applyOffset();
+                    isStepping = false;
+                    pauseUntil = performance.now() + PAUSE_DURATION;
+                }
             } else {
-                dash.classList.remove('active');
-                dash.classList.add('bg-gray-300');
+                if (Math.abs(velocity) > 0.5) {
+                    offset += velocity * dt;
+                    velocity *= 0.9;
+                    wrapOffset();
+                    applyOffset();
+                } else {
+                    velocity = 0;
+                }
+
+                if (!paused && performance.now() >= pauseUntil) {
+                    startStep(1);
+                }
+            }
+
+            requestAnimationFrame(tick);
+        }
+
+        function onDragStart(clientX) {
+            isDragging = true;
+            dragStartX = clientX;
+            dragStartOffset = offset;
+            velocity = 0;
+            isStepping = false;
+            pauseUntil = 0;
+            lastMoveX = clientX;
+            lastMoveTime = performance.now();
+            applyOffset();
+        }
+
+        function onDragMove(clientX) {
+            if (!isDragging) return;
+            const dx = clientX - dragStartX;
+            offset = dragStartOffset + dx;
+
+            const now = performance.now();
+            const dt = (now - lastMoveTime) / 1000;
+            if (dt > 0) {
+                velocity = (clientX - lastMoveX) / dt;
+            }
+            lastMoveX = clientX;
+            lastMoveTime = now;
+
+            wrapOffset();
+            applyOffset();
+        }
+
+        function onDragEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            const snappedIndex = Math.round(offset / cardStep);
+            const snappedTarget = snappedIndex * cardStep;
+
+            stepStart = offset;
+            stepTarget = snappedTarget;
+            stepStartTime = performance.now();
+            isStepping = true;
+
+            velocity = 0;
+            lastTime = null;
+        }
+
+        track.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            onDragStart(e.clientX);
+        });
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                e.preventDefault();
+                onDragMove(e.clientX);
             }
         });
-    }
+        window.addEventListener('mouseup', onDragEnd);
 
-    function nextSlide() {
-        goToSlide(currentSlide === totalSlides - 1 ? 0 : currentSlide + 1);
-    }
+        track.addEventListener('touchstart', (e) => {
+            onDragStart(e.touches[0].clientX);
+        }, { passive: true });
+        track.addEventListener('touchmove', (e) => {
+            onDragMove(e.touches[0].clientX);
+        }, { passive: true });
+        track.addEventListener('touchend', onDragEnd, { passive: true });
 
-    function prevSlide() {
-        goToSlide(currentSlide === 0 ? totalSlides - 1 : currentSlide - 1);
-    }
+        container.addEventListener('mouseenter', () => { paused = true; });
+        container.addEventListener('mouseleave', () => { paused = false; });
 
-    function startSlider() {
-        clearInterval(autoPlayInterval);
-        autoPlayInterval = setInterval(nextSlide, slideDuration);
-    }
+        function init() {
+            measure();
+            applyOffset();
+            pauseUntil = performance.now() + 300;
+            requestAnimationFrame(tick);
+        }
 
-    function pauseSlider() {
-        clearInterval(autoPlayInterval);
-    }
+        window.addEventListener('load', init);
+        window.addEventListener('resize', () => {
+            measure();
+            wrapOffset();
+            applyOffset();
+        });
 
-    document.addEventListener('DOMContentLoaded', () => {
-        startSlider();
-    });
+        setTimeout(init, 500);
+    })();
 </script>
-
 
 <!-- ================= FOOTER ================= -->
 <footer id="contact" class="bg-navy-dark text-gray-300 font-sans pt-20 pb-10 relative overflow-hidden">
