@@ -261,6 +261,18 @@
         @media (min-width: 640px) { .map-frame-wrapper { height: 450px; } }
         @media (min-width: 1024px) { .map-frame-wrapper { grid-column: span 8; height: 100%; } }
         .map-frame-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+        html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: #0a1128; /* match your bg-navy-dark hex */
+  min-height: 100dvh;
+}
     </style>
 </head>
 <body class="antialiased overflow-x-hidden min-h-screen flex flex-col relative">
@@ -857,7 +869,7 @@
 </section>
 
 <!-- ================= FOOTER ================= -->
-<footer id="contact" class="bg-navy-dark text-gray-300 font-sans pt-20 pb-10 relative overflow-hidden">
+<footer id="contact" class="bg-navy-dark text-gray-300 font-sans pt-20 pb-10 relative overflow-hidden w-full m-0" style="margin:0; padding-bottom: max(2.5rem, env(safe-area-inset-bottom));">
     
     <!-- Subtle Background Texture & Glow -->
     <div class="absolute inset-0 opacity-[0.05] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] pointer-events-none"></div>
@@ -920,7 +932,7 @@
                     </li>
                 </ul>
 
-                <!-- Social Icons (correct Facebook icon + larger size) -->
+                <!-- Social Icons -->
                 <div class="flex gap-3 mt-6">
                     <a href="https://www.facebook.com/share/p/1C8PL4T7gt/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold hover:border-gold hover:text-navy-dark transition-all duration-300">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

@@ -312,86 +312,167 @@
         @media (min-width: 640px) { .map-frame-wrapper { height: 450px; } }
         @media (min-width: 1024px) { .map-frame-wrapper { grid-column: span 8; height: 100%; } }
         .map-frame-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+        html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  background-color: #0a1128; /* ← replace with your real bg-navy-dark hex */
+}
+
+body {
+  min-height: 100dvh;
+}
     </style>
 </head>
 <body class="antialiased overflow-x-hidden min-h-screen flex flex-col relative">
 
  
-
 <!-- ================= TOP WHITE NAVBAR ================= -->
-    <header class="bg-white w-full relative z-50 shadow-sm">
-        <div class="py-4 px-6 md:px-12 flex justify-between items-center">
-            
-            <!-- Left: Godrej Altus Logo + Text -->
-            <a href="index.html" class="flex items-center gap-3 group">
-                <img src="https://ik.imagekit.io/iuiy6mihw/godrej/godrejlogo.png?updatedAt=1792923971636" alt="Godrej Altus Logo" class="h-12 w-auto object-contain" onerror="this.style.display='none';">
-                <div class="flex flex-col">
-                    <span class="font-bold text-navy text-xl tracking-[0.2em] leading-none uppercase">Godrej</span>
-                    <span class="text-gold text-[10px] tracking-[0.3em] uppercase font-semibold mt-1">Altus</span>
-                </div>
-            </a>
-
-            <!-- Right: Hamburger Menu Icon -->
-            <div class="flex items-center gap-6">
-                <!-- Hamburger Menu Icon -->
-                <button id="menuToggleBtn" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition group">
-                    <div class="w-5 h-4 relative flex flex-col justify-between">
-                        <span class="w-full h-[2px] bg-navy transition-all duration-300 origin-left group-[.is-open]:rotate-45 group-[.is-open]:translate-y-[1px]"></span>
-                        <span class="w-full h-[2px] bg-navy transition-all duration-300 group-[.is-open]:opacity-0"></span>
-                        <span class="w-full h-[2px] bg-navy transition-all duration-300 origin-left group-[.is-open]:-rotate-45 group-[.is-open]:-translate-y-[1px]"></span>
-                    </div>
-                </button>
+<header class="bg-white w-full relative z-50 shadow-sm">
+    <div class="py-4 px-6 md:px-12 flex justify-between items-center">
+        
+        <!-- Left: Godrej Altus Logo + Text -->
+        <a href="index.html" class="flex items-center gap-3 group">
+            <img src="https://ik.imagekit.io/iuiy6mihw/godrej/godrejlogo.png?updatedAt=1792923971636" alt="Godrej Altus Logo" class="h-12 w-auto object-contain" onerror="this.style.display='none';">
+            <div class="flex flex-col">
+                <span class="font-bold text-navy text-xl tracking-[0.2em] leading-none uppercase">Godrej</span>
+                <span class="text-gold text-[10px] tracking-[0.3em] uppercase font-semibold mt-1">Altus</span>
             </div>
+        </a>
+
+        <!-- Right: Hamburger Menu Icon -->
+        <div class="flex items-center gap-6">
+            <button id="menuToggleBtn" type="button" aria-label="Toggle navigation menu" aria-expanded="false"
+                    class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition">
+                <div class="w-5 h-4 relative flex flex-col justify-between">
+                    <span class="w-full h-[2px] bg-navy transition-all duration-300 origin-left"></span>
+                    <span class="w-full h-[2px] bg-navy transition-all duration-300"></span>
+                    <span class="w-full h-[2px] bg-navy transition-all duration-300 origin-left"></span>
+                </div>
+            </button>
         </div>
+    </div>
 
-        <!-- ================= DROPDOWN MENU ================= -->
-        <div id="navDropdown" class="nav-dropdown absolute top-full left-0 w-full bg-navy-dark border-t border-white/10 shadow-2xl">
-            <div class="max-w-7xl mx-auto px-6 py-8 md:py-12">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                    
-                    <!-- Column 1: Primary Links -->
-                    <div>
-                        <h4 class="text-gold text-[10px] font-bold tracking-[0.3em] uppercase mb-5">Explore</h4>
-                        <ul class="space-y-4">
-                            <li><a href="index.html" class="text-gray-300 hover:text-gold text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Home</a></li>
-                            <li><a href="about.html" class="text-gray-300 hover:text-gold text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>About the Landmark</a></li>
-                            <li><a href="residence.html" class="text-gray-300 hover:text-gold text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Residences</a></li>
-                            <li><a href="amenities.html" class="text-gray-300 hover:text-gold text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Amenities</a></li>
-                        </ul>
-                    </div>
+    <!-- ================= DROPDOWN MENU ================= -->
+    <div id="navDropdown" class="nav-dropdown absolute top-full left-0 w-full bg-navy-dark border-t border-white/10 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-6 py-8 md:py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                
+                <!-- Column 1: Primary Links -->
+                <div>
+                    <h4 class="text-gold text-[10px] font-bold tracking-[0.3em] uppercase mb-5">Explore</h4>
+                    <ul class="space-y-4">
+                        <li><a href="index.html" class="text-gray-300 hover:text-gold text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Home</a></li>
+                        <li><a href="about.html" class="text-gray-300 hover:text-gold text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>About the Landmark</a></li>
+                        <li><a href="residence.html" class="text-gray-300 hover:text-gold text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Residences</a></li>
+                        <li><a href="amenities.html" class="text-gray-300 hover:text-gold text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Amenities</a></li>
+                    </ul>
+                </div>
 
-                    <!-- Column 2: Secondary Links -->
-                    <div>
-                        <h4 class="text-gold text-[10px] font-bold tracking-[0.3em] uppercase mb-5">Discover</h4>
-                        <ul class="space-y-4">
-                            <li><a href="contact.html" class="text-gray-300 hover:text-gold text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Location &amp; Contact</a></li>
-                            <li><a href="/index.html#gallery" class="text-gray-300 hover:text-gold text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Gallery</a></li>
-                        </ul>
-                    </div>
+                <!-- Column 2: Secondary Links -->
+                <div>
+                    <h4 class="text-gold text-[10px] font-bold tracking-[0.3em] uppercase mb-5">Discover</h4>
+                    <ul class="space-y-4">
+                        <li><a href="contact.html" class="text-gray-300 hover:text-gold text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Location &amp; Contact</a></li>
+                        <li><a href="/index.html#gallery" class="text-gray-300 hover:text-gold text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Gallery</a></li>
+                    </ul>
+                </div>
 
-                    <!-- Column 3: Contact Info -->
-                    <div>
-                        <h4 class="text-gold text-[10px] font-bold tracking-[0.3em] uppercase mb-5">Get in Touch</h4>
-                        <div class="space-y-4 text-sm font-light">
-                            <a href="tel:9099446667" class="block text-gray-300 hover:text-white transition">
-                                <span class="block text-gray-500 text-[10px] uppercase tracking-wider mb-1">Call Us</span>
-                                +91 9099446667
-                            </a>
-                            <a href="mailto:contact@godrejaltusahmedabad.co.in" class="block text-gray-300 hover:text-white transition">
-                                <span class="block text-gray-500 text-[10px] uppercase tracking-wider mb-1">Email Us</span>
-                                contact@godrejaltusahmedabad.co.in
-                            </a>
-                            <div class="text-gray-300 pt-2">
-                                <span class="block text-gray-500 text-[10px] uppercase tracking-wider mb-1">Visit Us</span>
-                                Plot No. 99, Besides GMDC,<br>Vastrapur, Ahmedabad
-                            </div>
+                <!-- Column 3: Contact Info -->
+                <div>
+                    <h4 class="text-gold text-[10px] font-bold tracking-[0.3em] uppercase mb-5">Get in Touch</h4>
+                    <div class="space-y-4 text-sm font-light">
+                        <a href="tel:9099446667" class="block text-gray-300 hover:text-white transition">
+                            <span class="block text-gray-500 text-[10px] uppercase tracking-wider mb-1">Call Us</span>
+                            +91 9099446667
+                        </a>
+                        <a href="mailto:contact@godrejaltusahmedabad.co.in" class="block text-gray-300 hover:text-white transition">
+                            <span class="block text-gray-500 text-[10px] uppercase tracking-wider mb-1">Email Us</span>
+                            contact@godrejaltusahmedabad.co.in
+                        </a>
+                        <div class="text-gray-300 pt-2">
+                            <span class="block text-gray-500 text-[10px] uppercase tracking-wider mb-1">Visit Us</span>
+                            Plot No. 99, Besides GMDC,<br>Vastrapur, Ahmedabad
                         </div>
                     </div>
-
                 </div>
+
             </div>
         </div>
-    </header>
+    </div>
+</header>
+
+<!-- ================= NAVBAR STYLES (dropdown + hamburger animation) ================= -->
+<style>
+    /* Dropdown hidden by default */
+    #navDropdown {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.45s ease, opacity 0.3s ease;
+        pointer-events: none;
+    }
+    /* When open — matches the class toggled by the navbar script */
+    #navDropdown.open {
+        max-height: 900px;
+        opacity: 1;
+        pointer-events: auto;
+    }
+    /* Hamburger → X animation */
+    #menuToggleBtn.is-open span:nth-child(1) { transform: rotate(45deg) translateY(1px); }
+    #menuToggleBtn.is-open span:nth-child(2) { opacity: 0; }
+    #menuToggleBtn.is-open span:nth-child(3) { transform: rotate(-45deg) translateY(-1px); }
+</style>
+
+<!-- ================= NAVBAR TOGGLE SCRIPT ================= -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const btn = document.getElementById('menuToggleBtn');
+    const dropdown = document.getElementById('navDropdown');
+
+    if (!btn || !dropdown) {
+        console.error('[Navbar] menuToggleBtn or navDropdown not found in DOM');
+        return;
+    }
+
+    btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const isOpen = dropdown.classList.toggle('is-open');
+        btn.classList.toggle('is-open', isOpen);
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', function (e) {
+        if (!dropdown.contains(e.target) && !btn.contains(e.target)) {
+            dropdown.classList.remove('is-open');
+            btn.classList.remove('is-open');
+            btn.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            dropdown.classList.remove('is-open');
+            btn.classList.remove('is-open');
+            btn.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    // Close when a link inside is clicked
+    dropdown.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+            dropdown.classList.remove('is-open');
+            btn.classList.remove('is-open');
+            btn.setAttribute('aria-expanded', 'false');
+        });
+    });
+});
+</script>
 
    <!-- ========== HERO / PAGE HEADER — LIGHT ========== -->
 <section class="pt-32 md:pt-40 pb-16 md:pb-20 bg-offwhite relative overflow-hidden">
@@ -641,7 +722,7 @@
     </section>
 
 <!-- ================= FOOTER ================= -->
-<footer id="contact" class="bg-navy-dark text-gray-300 font-sans pt-20 pb-10 relative overflow-hidden">
+<footer id="contact" class="bg-navy-dark text-gray-300 font-sans pt-20 pb-10 relative overflow-hidden w-full m-0" style="margin:0; padding-bottom: max(2.5rem, env(safe-area-inset-bottom));">
     
     <!-- Subtle Background Texture & Glow -->
     <div class="absolute inset-0 opacity-[0.05] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] pointer-events-none"></div>
@@ -959,5 +1040,7 @@ document.addEventListener('DOMContentLoaded', function () {
         onScroll();
     })();
 </script>
+
+
 </body>
 </html>

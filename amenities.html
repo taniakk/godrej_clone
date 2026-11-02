@@ -211,6 +211,18 @@
             transform: scale(1.15) translateY(-5px) rotate(5deg);
             color: #D91A5B;
         }
+        html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  background-color: #0a1128; /* ← REPLACE with your actual bg-navy-dark hex */
+}
+
+body {
+  min-height: 100dvh;
+}
     </style>
 </head>
 <body class="font-sans text-gray-800 bg-offwhite antialiased overflow-x-hidden selection:bg-gold selection:text-white">
@@ -858,7 +870,7 @@
     </section>
 
 <!-- ================= FOOTER ================= -->
-<footer id="contact" class="bg-navy-dark text-gray-300 font-sans pt-20 pb-10 relative overflow-hidden">
+<footer id="contact" class="bg-navy-dark text-gray-300 font-sans pt-20 pb-10 relative overflow-hidden w-full m-0" style="margin:0; padding-bottom: max(2.5rem, env(safe-area-inset-bottom));">
     
     <!-- Subtle Background Texture & Glow -->
     <div class="absolute inset-0 opacity-[0.05] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] pointer-events-none"></div>

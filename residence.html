@@ -356,14 +356,23 @@
         @media (max-width: 767px) {
             .desktop-only-whatsapp { display: none !important; }
         }
+        html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  background-color: #0a1128; /* ← REPLACE with your actual bg-navy-dark hex */
+}
+
+body {
+  min-height: 100dvh;
+}
     </style>
 </head>
 <body class="font-sans text-gray-800 bg-offwhite antialiased overflow-x-hidden selection:bg-gold selection:text-white">
 
-<!-- ================= GLOBAL SCHEDULE VISIT BUTTON ================= -->
-<button id="openModalBtn" class="fixed right-0 top-1/2 -translate-y-1/2 bg-white text-navy py-10 px-3 rounded-l-xl shadow-2xl z-40 hover:bg-gray-50 transition group hidden md:flex items-center justify-center border-l-4 border-gold cursor-pointer">
-    <span class="vertical-text text-sm font-bold tracking-widest uppercase group-hover:text-gold transition-colors">Schedule a visit</span>
-</button>
+
 
 <!-- ================= TOP WHITE NAVBAR ================= -->
 <header class="bg-white w-full relative z-50 shadow-sm">
@@ -380,11 +389,12 @@
 
         <!-- Right: Hamburger Menu Icon -->
         <div class="flex items-center gap-6">
-            <button id="menuToggleBtn" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition group">
+            <button id="menuToggleBtn" type="button" aria-label="Toggle navigation menu" aria-expanded="false"
+                    class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition">
                 <div class="w-5 h-4 relative flex flex-col justify-between">
-                    <span class="w-full h-[2px] bg-navy transition-all duration-300 origin-left group-[.is-open]:rotate-45 group-[.is-open]:translate-y-[1px]"></span>
-                    <span class="w-full h-[2px] bg-navy transition-all duration-300 group-[.is-open]:opacity-0"></span>
-                    <span class="w-full h-[2px] bg-navy transition-all duration-300 origin-left group-[.is-open]:-rotate-45 group-[.is-open]:-translate-y-[1px]"></span>
+                    <span class="w-full h-[2px] bg-navy transition-all duration-300 origin-left"></span>
+                    <span class="w-full h-[2px] bg-navy transition-all duration-300"></span>
+                    <span class="w-full h-[2px] bg-navy transition-all duration-300 origin-left"></span>
                 </div>
             </button>
         </div>
@@ -439,48 +449,176 @@
     </div>
 </header>
 
-<!-- ================= POPUP FORM (Schedule Visit) ================= -->
-<div id="visitModal" class="modal-overlay">
-    <div class="modal-box bg-white max-w-[400px] w-full mx-auto rounded-sm shadow-[0_30px_80px_rgba(0,0,0,0.55)] overflow-hidden relative">
-        <div class="h-[3px] w-full bg-gradient-to-r from-gold-dark via-gold to-gold-dark"></div>
-        
-        <button id="closeModalBtn" class="absolute top-3 right-3 z-30 text-white/50 hover:text-gold transition-colors p-1 rounded-full hover:bg-white/10" aria-label="Close popup">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-        </button>
-        
-        <div class="bg-navy-dark px-6 pt-6 pb-4 text-center relative overflow-hidden">
-            <div class="relative z-10">
-                <div class="flex justify-center mb-2">
-                    <div class="w-10 h-10 border border-gold/40 rotate-45 flex items-center justify-center">
-                        <span class="text-gold font-serif text-lg -rotate-45 font-semibold">A</span>
-                    </div>
-                </div>
-                <p class="text-gold text-[9px] tracking-[0.4em] uppercase font-semibold mb-1">Private Invitation</p>
-                <h3 class="text-white font-serif text-2xl leading-tight tracking-wide">Schedule a Visit</h3>
-                <p class="text-gray-400 text-[10px] tracking-[0.2em] uppercase mt-1">Godrej Altus · Vastrapur</p>
-            </div>
-        </div>
-        
-        <div class="px-6 pt-5 pb-6">
-            <p class="text-gray-500 text-xs text-center font-light leading-relaxed mb-5">Fill in your details and our team will arrange a private walkthrough at your convenience.</p>
-            
-            <form id="visitForm" class="space-y-4" onsubmit="event.preventDefault(); alert('Thank you! Our team will contact you to confirm your visit.'); closeModal();">
-                <div><label class="premium-label">Full Name</label><input type="text" placeholder="Your full name" required class="premium-input"></div>
-                <div><label class="premium-label">Phone Number</label><input type="tel" placeholder="+91 00000 00000" required class="premium-input"></div>
-                <div><label class="premium-label">Preferred Date</label><input type="date" required class="premium-input text-gray-500"></div>
-                
-                <div class="pt-2">
-                    <button type="submit" class="btn-gold-shimmer w-full relative bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-white font-bold py-3.5 rounded-sm transition-all duration-300 text-[11px] tracking-[0.2em] uppercase shadow-[0_8px_24px_rgba(217,26,91,0.35)] hover:shadow-[0_12px_32px_rgba(217,26,91,0.5)] hover:-translate-y-0.5">
-                        <span class="relative z-10 flex items-center justify-center gap-2">
-                            Confirm Visit
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                        </span>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+<!-- ================= NAVBAR STYLES ================= -->
+<style>
+    /* Hide dropdown by default */
+    #navDropdown.nav-dropdown {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+        transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    }
+
+    /* Show when .open is toggled by JS */
+    #navDropdown.nav-dropdown.open {
+        max-height: 900px;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* Hamburger → X animation */
+    #menuToggleBtn.is-open span:nth-child(1) { transform: rotate(45deg) translateY(1px); }
+    #menuToggleBtn.is-open span:nth-child(2) { opacity: 0; }
+    #menuToggleBtn.is-open span:nth-child(3) { transform: rotate(-45deg) translateY(-1px); }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* ============================================================
+       AOS INIT
+       ============================================================ */
+    if (typeof AOS !== 'undefined') {
+        AOS.init({ once: true, offset: 50, duration: 800, easing: 'ease-out-cubic' });
+    }
+
+    /* ============================================================
+       MODAL LOGIC (#visitModal)
+       ============================================================ */
+    const modal    = document.getElementById('visitModal');
+    const openBtn  = document.getElementById('openModalBtn');
+    const closeBtn = document.getElementById('closeModalBtn');
+
+    function closeModal() {
+        if (modal) modal.classList.remove('active');
+    }
+
+    if (openBtn && modal) {
+        openBtn.addEventListener('click', () => modal.classList.add('active'));
+    }
+    if (closeBtn && modal) {
+        closeBtn.addEventListener('click', closeModal);
+    }
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+        });
+    }
+
+    /* ============================================================
+       HAMBURGER DROPDOWN NAVBAR (#menuToggleBtn / #navDropdown)
+       ============================================================ */
+    const menuToggleBtn = document.getElementById('menuToggleBtn');
+    const navDropdown   = document.getElementById('navDropdown');
+    let isMenuOpen = false;
+
+    if (menuToggleBtn && navDropdown) {
+
+        // Toggle open / close
+        menuToggleBtn.addEventListener('click', function (e) {
+            e.stopPropagation(); // prevent the outside-click handler from immediately closing it
+            isMenuOpen = !isMenuOpen;
+            navDropdown.classList.toggle('open', isMenuOpen);
+            menuToggleBtn.classList.toggle('is-open', isMenuOpen);
+            menuToggleBtn.setAttribute('aria-expanded', isMenuOpen ? 'true' : 'false');
+        });
+
+        // Auto-close on scroll
+        window.addEventListener('scroll', function () {
+            if (isMenuOpen && window.scrollY > 50) {
+                navDropdown.classList.remove('open');
+                menuToggleBtn.classList.remove('is-open');
+                menuToggleBtn.setAttribute('aria-expanded', 'false');
+                isMenuOpen = false;
+            }
+        }, { passive: true });
+
+        // Close when clicking outside
+        document.addEventListener('click', function (e) {
+            if (
+                isMenuOpen &&
+                !navDropdown.contains(e.target) &&
+                !menuToggleBtn.contains(e.target)
+            ) {
+                navDropdown.classList.remove('open');
+                menuToggleBtn.classList.remove('is-open');
+                menuToggleBtn.setAttribute('aria-expanded', 'false');
+                isMenuOpen = false;
+            }
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && isMenuOpen) {
+                navDropdown.classList.remove('open');
+                menuToggleBtn.classList.remove('is-open');
+                menuToggleBtn.setAttribute('aria-expanded', 'false');
+                isMenuOpen = false;
+            }
+        });
+
+        // Close when a link inside the dropdown is clicked
+        navDropdown.querySelectorAll('a').forEach(function (link) {
+            link.addEventListener('click', function () {
+                navDropdown.classList.remove('open');
+                menuToggleBtn.classList.remove('is-open');
+                menuToggleBtn.setAttribute('aria-expanded', 'false');
+                isMenuOpen = false;
+            });
+        });
+
+    } else {
+        console.warn('[Navbar] #menuToggleBtn or #navDropdown not found on this page.');
+    }
+
+    /* ============================================================
+       HERO NAV STICKY LOGIC (#heroNavWrapper)
+       ============================================================ */
+    (function () {
+        const heroNav = document.getElementById('heroNavWrapper');
+        if (!heroNav) return;
+
+        let triggerPoint = 0;
+
+        function updateTriggerPoint() {
+            const wasSticky = heroNav.classList.contains('hero-nav-sticky');
+            if (wasSticky) heroNav.classList.remove('hero-nav-sticky');
+            triggerPoint = heroNav.getBoundingClientRect().top + window.pageYOffset;
+            if (wasSticky) heroNav.classList.add('hero-nav-sticky');
+        }
+
+        window.addEventListener('load', updateTriggerPoint);
+        window.addEventListener('resize', updateTriggerPoint);
+
+        let ticking = false;
+        function onScroll() {
+            const scrollY  = window.pageYOffset || document.documentElement.scrollTop;
+            const isSticky = heroNav.classList.contains('hero-nav-sticky');
+
+            if (scrollY > triggerPoint && !isSticky) {
+                heroNav.classList.add('hero-nav-sticky');
+            } else if (scrollY <= triggerPoint && isSticky) {
+                heroNav.classList.remove('hero-nav-sticky');
+            }
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', function () {
+            if (!ticking) {
+                window.requestAnimationFrame(onScroll);
+                ticking = true;
+            }
+        }, { passive: true });
+    })();
+
+});
+</script>
+
+
 
 <!-- ================= MAIN HERO SECTION — PREMIUM ================= -->
 <main class="flex-grow relative flex flex-col justify-between hero-bg min-h-[calc(100vh-80px)] overflow-hidden">
@@ -1051,25 +1189,25 @@
     </div>
 </section>
 
-<!-- FOOTER -->
-<footer id="contact" class="bg-navy-dark text-gray-300 font-sans pt-20 pb-10 relative overflow-hidden">
-
+<!-- ================= FOOTER ================= -->
+<footer id="contact" class="bg-navy-dark text-gray-300 font-sans pt-20 pb-10 relative overflow-hidden w-full m-0" style="margin:0; padding-bottom: max(2.5rem, env(safe-area-inset-bottom));">
+    
     <!-- Subtle Background Texture & Glow -->
     <div class="absolute inset-0 opacity-[0.05] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] pointer-events-none"></div>
     <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-gold/[0.03] rounded-full blur-[100px] pointer-events-none"></div>
 
     <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-
+        
         <!-- Top Section: 4 Columns -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 pb-16 border-b border-white/10">
-
+            
             <!-- Column 1: Brand & About -->
             <div>
                 <a href="index.html" class="flex items-center gap-3 mb-6 group">
                     <!-- Logo -->
-                    <img src="https://ik.imagekit.io/iuiy6mihw/godrej/godrejlogo.png" alt="Godrej Altus Logo" class="h-12 w-auto object-contain opacity-90 group-hover:opacity-100 transition-opacity" onerror="this.style.display='none';">
-
-                    <!-- Brand Text (always visible) -->
+                    <img src="images/godrejlogo.png" alt="Godrej Altus Logo" class="h-12 w-auto object-contain opacity-90 group-hover:opacity-100 transition-opacity" onerror="this.style.display='none';">
+                    
+                    <!-- Brand Text -->
                     <div class="flex flex-col">
                         <span class="text-white font-serif text-xl tracking-[0.15em] leading-none font-semibold">GODREJ</span>
                         <span class="text-gold font-sans text-[10px] tracking-[0.3em] uppercase mt-1">Altus</span>
@@ -1151,7 +1289,7 @@
         <!-- Bottom Section: Copyright & Legal -->
         <div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-light text-gray-500">
             <p>&copy; 2026 Godrej Altus. All Rights Reserved.</p>
-
+            
             <div class="flex flex-wrap justify-center gap-4 md:gap-6">
                 <a href="#" class="hover:text-gold transition-colors">Privacy Policy</a>
                 <span class="hidden md:inline text-white/10">|</span>
@@ -1234,85 +1372,6 @@
 
     <!-- AOS Library (needed for residences page animations) -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-    AOS.init({ once: true, offset: 50, duration: 800, easing: 'ease-out-cubic' });
 
-    // --- Modal Logic ---
-    const modal = document.getElementById('visitModal');
-    const openBtn = document.getElementById('openModalBtn');
-    const closeBtn = document.getElementById('closeModalBtn');
-
-    openBtn.addEventListener('click', () => modal.classList.add('active'));
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-    });
-    function closeModal() { modal.classList.remove('active'); }
-
-    // --- Dropdown Menu Logic ---
-    const menuToggleBtn = document.getElementById('menuToggleBtn');
-    const navDropdown = document.getElementById('navDropdown');
-    let isMenuOpen = false;
-
-    menuToggleBtn.addEventListener('click', () => {
-        isMenuOpen = !isMenuOpen;
-        navDropdown.classList.toggle('open', isMenuOpen);
-        menuToggleBtn.classList.toggle('is-open', isMenuOpen);
-    });
-
-    window.addEventListener('scroll', () => {
-        if (isMenuOpen && window.scrollY > 50) {
-            navDropdown.classList.remove('open');
-            menuToggleBtn.classList.remove('is-open');
-            isMenuOpen = false;
-        }
-    });
-
-    document.addEventListener('click', (e) => {
-        if (isMenuOpen && !navDropdown.contains(e.target) && !menuToggleBtn.contains(e.target)) {
-            navDropdown.classList.remove('open');
-            menuToggleBtn.classList.remove('is-open');
-            isMenuOpen = false;
-        }
-    });
-
-    // --- Hero Nav Sticky Logic ---
-    (function () {
-        const heroNav = document.getElementById('heroNavWrapper');
-        if (!heroNav) return;
-
-        let triggerPoint = 0;
-
-        function updateTriggerPoint() {
-            const wasSticky = heroNav.classList.contains('hero-nav-sticky');
-            if (wasSticky) heroNav.classList.remove('hero-nav-sticky');
-            triggerPoint = heroNav.getBoundingClientRect().top + window.pageYOffset;
-            if (wasSticky) heroNav.classList.add('hero-nav-sticky');
-        }
-
-        window.addEventListener('load', updateTriggerPoint);
-        window.addEventListener('resize', updateTriggerPoint);
-
-        let ticking = false;
-        function onScroll() {
-            const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-            const isSticky = heroNav.classList.contains('hero-nav-sticky');
-            if (scrollY > triggerPoint && !isSticky) {
-                heroNav.classList.add('hero-nav-sticky');
-            } else if (scrollY <= triggerPoint && isSticky) {
-                heroNav.classList.remove('hero-nav-sticky');
-            }
-            ticking = false;
-        }
-
-        window.addEventListener('scroll', function () {
-            if (!ticking) {
-                window.requestAnimationFrame(onScroll);
-                ticking = true;
-            }
-        }, { passive: true });
-    })();
-</script>
 </body>
 </html>

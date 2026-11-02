@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
 
     <!-- Tailwind Configuration -->
     <script>
@@ -834,14 +835,14 @@ body {
     <div class="max-w-[1100px] mx-auto px-6 lg:px-8 relative z-10">
         
         <!-- Section Title -->
-        <div class="text-center mb-16" data-aos="fade-up">
-            <div class="flex items-center justify-center gap-3 mb-4">
+        <div class="text-center mb-16" data-aos="fade-up" data-aos-duration="800">
+            <div class="flex items-center justify-center gap-3 mb-4" data-aos="fade-up" data-aos-delay="100">
                 <span class="w-12 h-[1px] bg-brand/30"></span>
                 <h2 class="text-brand text-[10px] font-bold tracking-[0.4em] uppercase">Investment</h2>
                 <span class="w-12 h-[1px] bg-brand/30"></span>
             </div>
-            <h3 class="text-3xl md:text-5xl font-serif text-brand-dark leading-tight">Price &amp; Payment Plan</h3>
-            <p class="text-gray-500 text-sm mt-3 font-light">Transparent pricing for a life of luxury.</p>
+            <h3 class="text-3xl md:text-5xl font-serif text-brand-dark leading-tight" data-aos="fade-up" data-aos-delay="200">Price &amp; Payment Plan</h3>
+            <p class="text-gray-500 text-sm mt-3 font-light" data-aos="fade-up" data-aos-delay="300">Transparent pricing for a life of luxury.</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
@@ -851,7 +852,7 @@ body {
                 <!-- Table Container -->
                 <div class="border border-gray-200 rounded-sm overflow-hidden shadow-[0_15px_40px_rgba(46,5,21,0.08)]">
                     <!-- Header -->
-                    <div class="bg-brand py-5 px-8 flex justify-between items-center">
+                    <div class="bg-brand py-5 px-8 flex justify-between items-center" data-aos="fade-in" data-aos-delay="200" data-aos-duration="800">
                         <h3 class="text-white font-serif text-xl tracking-wide">Configuration</h3>
                         <h3 class="text-gold font-serif text-xl tracking-wide">Starting Price</h3>
                     </div>
@@ -859,7 +860,7 @@ body {
                     <!-- Rows -->
                     <div class="bg-white">
                         <!-- 3 BHK Row -->
-                        <div class="group flex justify-between items-center p-8 border-b border-gray-100 hover:bg-brand/5 transition-colors duration-300">
+                        <div class="group flex justify-between items-center p-8 border-b border-gray-100 hover:bg-brand/5 transition-colors duration-300" data-aos="fade-up" data-aos-delay="350" data-aos-duration="700">
                             <div class="flex items-center gap-4">
                                 <div class="w-1 h-8 bg-gold rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
                                 <span class="text-brand-dark font-serif text-2xl">3 BHK</span>
@@ -868,7 +869,7 @@ body {
                         </div>
                         
                         <!-- 4 BHK Row -->
-                        <div class="group flex justify-between items-center p-8 hover:bg-brand/5 transition-colors duration-300">
+                        <div class="group flex justify-between items-center p-8 hover:bg-brand/5 transition-colors duration-300" data-aos="fade-up" data-aos-delay="450" data-aos-duration="700">
                             <div class="flex items-center gap-4">
                                 <div class="w-1 h-8 bg-gold rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
                                 <span class="text-brand-dark font-serif text-2xl">4 BHK</span>
@@ -879,7 +880,7 @@ body {
                 </div>
                 
                 <!-- Disclaimer -->
-                <div class="flex items-start gap-2 mt-5 ml-2">
+                <div class="flex items-start gap-2 mt-5 ml-2" data-aos="fade-up" data-aos-delay="550" data-aos-duration="600">
                     <svg class="w-4 h-4 text-gray-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     <p class="text-gray-500 text-[11px] leading-relaxed font-light">
                         Additional charges and Government taxes (GST, stamp duty, registration, AMC, IFMS &amp; other statutory levies) extra as applicable.
@@ -892,13 +893,13 @@ body {
                 <!-- Decorative gold accent -->
                 <div class="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-gold-dark via-gold to-gold-dark"></div>
 
-                <h3 class="text-2xl font-serif text-brand-dark mb-8 flex items-center gap-3">
+                <h3 class="text-2xl font-serif text-brand-dark mb-8 flex items-center gap-3" data-aos="fade-down" data-aos-delay="350" data-aos-duration="700">
                     <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                     EMI Calculator
                 </h3>
 
                 <!-- Loan Amount Input -->
-                <div class="mb-8">
+                <div class="mb-8" data-aos="fade-up" data-aos-delay="450" data-aos-duration="600">
                     <label class="block text-gray-500 text-xs font-semibold uppercase tracking-wider mb-2">Loan Amount</label>
                     <div class="flex justify-between items-center border-b-2 border-brand/20 pb-3 focus-within:border-gold transition-colors">
                         <input type="text" id="loanAmountInput" value="30,000" class="w-full text-3xl font-serif text-brand-dark outline-none bg-transparent" oninput="updateEMI()">
@@ -909,7 +910,7 @@ body {
                 <!-- Sliders Container -->
                 <div class="space-y-8">
                     <!-- Advance Payment Slider -->
-                    <div>
+                    <div data-aos="fade-up" data-aos-delay="550" data-aos-duration="600">
                         <div class="flex justify-between items-center mb-4">
                             <label class="text-gray-500 text-xs font-semibold uppercase tracking-wider">Advance Payment</label>
                             <span class="text-brand font-serif text-lg bg-brand/5 px-3 py-1 rounded-sm" id="advanceDisplay">6,000</span>
@@ -918,7 +919,7 @@ body {
                     </div>
 
                     <!-- Duration Slider -->
-                    <div>
+                    <div data-aos="fade-up" data-aos-delay="650" data-aos-duration="600">
                         <div class="flex justify-between items-center mb-4">
                             <label class="text-gray-500 text-xs font-semibold uppercase tracking-wider">Duration</label>
                             <span class="text-brand font-serif text-lg bg-brand/5 px-3 py-1 rounded-sm" id="durationDisplay">25 Years</span>
@@ -927,7 +928,7 @@ body {
                     </div>
 
                     <!-- Interest Rate Slider -->
-                    <div>
+                    <div data-aos="fade-up" data-aos-delay="750" data-aos-duration="600">
                         <div class="flex justify-between items-center mb-4">
                             <label class="text-gray-500 text-xs font-semibold uppercase tracking-wider">Interest Rate</label>
                             <span class="text-brand font-serif text-lg bg-brand/5 px-3 py-1 rounded-sm" id="interestDisplay">7%</span>
@@ -937,7 +938,7 @@ body {
                 </div>
 
                 <!-- Result -->
-                <div class="mt-10 pt-6 border-t border-gray-100 flex items-end justify-between">
+                <div class="mt-10 pt-6 border-t border-gray-100 flex items-end justify-between" data-aos="zoom-in" data-aos-delay="850" data-aos-duration="800">
                     <div>
                         <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider mb-2">Estimated Monthly EMI</p>
                         <p class="text-4xl font-serif text-brand-dark">
@@ -1557,5 +1558,17 @@ body {
             autoPopup.classList.remove('active');
         }
     </script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 800,       // default animation length
+        easing: 'ease-in-out',
+        once: true,          // animate only once (better perf)
+        offset: 80,          // trigger offset from viewport bottom
+        mirror: false,       // don't animate out when scrolling back up
+        disable: 'mobile'    // optional: disable on mobile to prevent jank (remove if you want animations on mobile)
+    });
+</script>
 </body>
 </html>
