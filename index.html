@@ -13,7 +13,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
-
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <!-- Tailwind Configuration -->
     <script>
         tailwind.config = {
@@ -200,182 +201,245 @@ body {
 </head>
 <body class="antialiased overflow-x-hidden min-h-screen flex flex-col relative">
 
-    <!-- ================= AUTO POPUP FORM (Appears on Page Load) ================= -->
-    <div id="autoPopup" class="auto-popup-overlay">
-        <div class="auto-popup-box bg-white w-full max-w-[420px] mx-auto rounded-sm shadow-[0_30px_80px_rgba(0,0,0,0.55)] overflow-hidden relative">
-            <div class="h-[3px] w-full bg-gradient-to-r from-gold-dark via-gold to-gold-dark"></div>
+ 
 
-            <button id="closeAutoPopup" class="absolute top-3 right-3 z-30 text-gray-400 hover:text-gold transition-colors p-1 rounded-full hover:bg-gray-100" aria-label="Close popup">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+<!-- ================= GLOBAL SCHEDULE VISIT BUTTON ================= -->
+<button id="openModalBtn"
+        type="button"
+        aria-label="Schedule a visit"
+        class="fixed right-0 top-1/2 -translate-y-1/2 z-40 hidden md:flex
+               items-center justify-center
+               bg-white text-navy py-10 px-3
+               rounded-l-xl shadow-2xl border-l-4 border-gold
+               hover:bg-gray-50 transition group cursor-pointer">
+    <span class="vertical-text text-sm font-bold tracking-widest uppercase group-hover:text-gold transition-colors">
+        Schedule a visit
+    </span>
+</button>
+
+<!-- ================= VISIT MODAL (only needed if you don't already have one) ================= -->
+<div id="visitModal"
+     class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+     role="dialog" aria-modal="true" aria-labelledby="visitModalTitle">
+    <div class="bg-white w-full max-w-md rounded-xl shadow-2xl p-6 md:p-8 relative">
+        <button id="closeModalBtn" type="button" aria-label="Close"
+                class="absolute top-3 right-3 w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+
+        <h2 id="visitModalTitle" class="text-2xl font-serif text-navy mb-2">Schedule a Visit</h2>
+        <p class="text-sm text-gray-500 font-light mb-5">Share your details and our team will call you back within 24 hours.</p>
+
+        <form class="space-y-4" onsubmit="event.preventDefault(); alert('Thank you! We will call you back shortly.'); this.reset();">
+            <input type="text" name="name" required placeholder="Your Full Name"
+                   class="w-full px-4 py-3 bg-offwhite border border-gray-200 rounded-sm text-sm text-gray-800 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-all">
+            <input type="tel" name="phone" required placeholder="Phone Number"
+                   class="w-full px-4 py-3 bg-offwhite border border-gray-200 rounded-sm text-sm text-gray-800 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-all">
+            <button type="submit"
+                    class="w-full bg-gold hover:bg-gold-light text-navy-dark font-bold py-3 rounded-sm text-xs tracking-[0.15em] uppercase shadow-[0_8px_20px_rgba(217,26,91,0.3)] hover:shadow-[0_12px_25px_rgba(217,26,91,0.5)] transition-all">
+                Submit
             </button>
-
-            <div class="bg-navy-dark px-6 pt-6 pb-4 text-center relative overflow-hidden">
-                <div class="relative z-10">
-                    <div class="flex justify-center mb-2">
-                        <div class="w-10 h-10 border border-gold/40 rotate-45 flex items-center justify-center">
-                            <span class="text-gold font-serif text-lg -rotate-45 font-semibold">A</span>
-                        </div>
-                    </div>
-                    <p class="text-gold text-[9px] tracking-[0.4em] uppercase font-semibold mb-1">Exclusive Preview</p>
-                    <h3 class="text-white font-serif text-2xl leading-tight tracking-wide">Register Your Interest</h3>
-                    <p class="text-gray-400 text-[10px] tracking-[0.2em] uppercase mt-1">Godrej Altus · Vastrapur</p>
-                </div>
-            </div>
-
-            <div class="px-6 pt-5 pb-6">
-                <p class="text-gray-500 text-xs text-center font-light leading-relaxed mb-5">Get exclusive access to floor plans, pricing and a private walkthrough. Fill in your details below.</p>
-
-                <form id="autoPopupForm" class="space-y-4" onsubmit="event.preventDefault(); alert('Thank you! Our team will contact you shortly.'); closeAutoPopup();">
-                    <div><label class="premium-label">Full Name</label><input type="text" placeholder="Your full name" required class="premium-input"></div>
-                    <div><label class="premium-label">Phone Number</label><input type="tel" placeholder="+91 00000 00000" required class="premium-input"></div>
-                    <div><label class="premium-label">Email Address</label><input type="email" placeholder="you@example.com" required class="premium-input"></div>
-                    <div class="pt-2">
-                        <button type="submit" class="btn-gold-shimmer w-full relative bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-white font-bold py-3.5 rounded-sm transition-all duration-300 text-[11px] tracking-[0.2em] uppercase shadow-[0_8px_24px_rgba(217,26,91,0.35)] hover:shadow-[0_12px_32px_rgba(217,26,91,0.5)] hover:-translate-y-0.5">
-                            <span class="relative z-10 flex items-center justify-center gap-2">
-                                Submit Enquiry
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                            </span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        </form>
     </div>
+</div>
 
-    <!-- ================= GLOBAL SCHEDULE VISIT BUTTON ================= -->
-    <!-- This single fixed button is now used across the entire website page -->
-     <button id="openModalBtn" class="fixed right-0 top-1/2 -translate-y-1/2 bg-white text-navy py-10 px-3 rounded-l-xl shadow-2xl z-40 hover:bg-gray-50 transition group hidden md:flex items-center justify-center border-l-4 border-gold cursor-pointer">
-        <span class="vertical-text text-sm font-bold tracking-widest uppercase group-hover:text-gold transition-colors">Schedule a visit</span>
-    </button>
+<!-- ================= MODAL OPEN/CLOSE LOGIC ================= -->
+<script>
+    (function () {
+        function init() {
+            var openBtn  = document.getElementById('openModalBtn');
+            var modal    = document.getElementById('visitModal');
+            var closeBtn = document.getElementById('closeModalBtn');
+
+            if (!openBtn) {
+                console.warn('[VisitModal] #openModalBtn not found');
+                return;
+            }
+            if (!modal) {
+                // No modal on this page — tell the console so it's obvious
+                console.warn('[VisitModal] #visitModal not found — add the modal markup or link it to your existing modal.');
+                return;
+            }
+
+            function openModal() {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeModal() {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }
+
+            openBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                openModal();
+            });
+
+            if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+            // Click backdrop to close
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) closeModal();
+            });
+
+            // Escape to close
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    })();
+</script>
+
+<!-- Small helper for the vertical label -->
+<style>
+    .vertical-text {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        transform: rotate(180deg);
+        letter-spacing: 0.2em;
+    }
+</style>
 
 <!-- ================= TOP WHITE NAVBAR ================= -->
-    <header class="bg-white w-full relative z-50 shadow-sm">
-        <div class="py-4 px-6 md:px-12 flex justify-between items-center">
-            
-            <!-- Left: Godrej Altus Logo + Text -->
-            <a href="index.html" class="flex items-center gap-3 group">
-                <img src="https://ik.imagekit.io/iuiy6mihw/godrej/godrejlogo.png?updatedAt=1792923971636" alt="Godrej Altus Logo" class="h-12 w-auto object-contain" onerror="this.style.display='none';">
-                <div class="flex flex-col">
-                    <span class="font-bold text-navy text-xl tracking-[0.2em] leading-none uppercase">Godrej</span>
-                    <span class="text-gold text-[10px] tracking-[0.3em] uppercase font-semibold mt-1">Altus</span>
-                </div>
+<header class="bg-white w-full relative z-50 shadow-sm pb-2 sm:pb-0">
+    <div class="pt-4 pb-5 sm:py-4 px-4 sm:px-6 md:px-12 flex justify-between items-center">
+
+        <!-- Left: Godrej Altus Logo + Text -->
+        <a href="index.html" class="flex items-center gap-2 sm:gap-3 group">
+            <img src="https://ik.imagekit.io/iuiy6mihw/godrej/godrejlogo.png?updatedAt=1792923971636" alt="Godrej Altus Logo" class="h-10 sm:h-12 w-auto object-contain" onerror="this.style.display='none';">
+            <div class="flex flex-col">
+                <span class="font-bold text-navy text-lg sm:text-xl tracking-[0.2em] leading-none uppercase">Godrej</span>
+                <span class="text-gold text-[9px] sm:text-[10px] tracking-[0.3em] uppercase font-semibold mt-1">Altus</span>
+            </div>
+        </a>
+
+        <!-- Right: Phone + Hamburger Menu Icon -->
+        <div class="flex items-center gap-2 sm:gap-6">
+            <!-- Phone Number CTA -->
+            <a href="tel:919702053758" class="flex items-center gap-2 bg-navy text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-full hover:bg-gold hover:text-navy transition-colors duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                </svg>
+                <span class="text-xs sm:text-sm font-semibold tracking-wide hidden xs:inline sm:inline">+91 97020 53758</span>
             </a>
 
-            <!-- Right: Hamburger Menu Icon -->
-            <div class="flex items-center gap-6">
-                <!-- Hamburger Menu Icon -->
-                <button id="menuToggleBtn" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition group">
-                    <div class="w-5 h-4 relative flex flex-col justify-between">
-                        <span class="w-full h-[2px] bg-navy transition-all duration-300 origin-left group-[.is-open]:rotate-45 group-[.is-open]:translate-y-[1px]"></span>
-                        <span class="w-full h-[2px] bg-navy transition-all duration-300 group-[.is-open]:opacity-0"></span>
-                        <span class="w-full h-[2px] bg-navy transition-all duration-300 origin-left group-[.is-open]:-rotate-45 group-[.is-open]:-translate-y-[1px]"></span>
-                    </div>
-                </button>
-            </div>
-        </div>
-
-        <!-- ================= DROPDOWN MENU ================= -->
-        <div id="navDropdown" class="nav-dropdown absolute top-full left-0 w-full bg-navy-dark border-t border-white/10 shadow-2xl">
-            <div class="max-w-7xl mx-auto px-6 py-8 md:py-12">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                    
-                    <!-- Column 1: Primary Links -->
-                    <div>
-                        <h4 class="text-gold text-[10px] font-bold tracking-[0.3em] uppercase mb-5">Explore</h4>
-                        <ul class="space-y-4">
-                            <li><a href="index.html" class="text-gray-300 hover:text-gold text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Home</a></li>
-                            <li><a href="about.html" class="text-gray-300 hover:text-gold text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>About the Landmark</a></li>
-                            <li><a href="residence.html" class="text-gray-300 hover:text-gold text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Residences</a></li>
-                            <li><a href="amenities.html" class="text-gray-300 hover:text-gold text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Amenities</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- Column 2: Secondary Links -->
-                    <div>
-                        <h4 class="text-gold text-[10px] font-bold tracking-[0.3em] uppercase mb-5">Discover</h4>
-                        <ul class="space-y-4">
-                            <li><a href="contact.html" class="text-gray-300 hover:text-gold text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Location &amp; Contact</a></li>
-                            <li><a href="gallery.html" class="text-gray-300 hover:text-gold text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Gallery</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- Column 3: Contact Info -->
-                    <div>
-                        <h4 class="text-gold text-[10px] font-bold tracking-[0.3em] uppercase mb-5">Get in Touch</h4>
-                        <div class="space-y-4 text-sm font-light">
-                            <a href="tel:9099446667" class="block text-gray-300 hover:text-white transition">
-                                <span class="block text-gray-500 text-[10px] uppercase tracking-wider mb-1">Call Us</span>
-                                +91 9099446667
-                            </a>
-                            <a href="mailto:contact@godrejaltusahmedabad.co.in" class="block text-gray-300 hover:text-white transition">
-                                <span class="block text-gray-500 text-[10px] uppercase tracking-wider mb-1">Email Us</span>
-                                contact@godrejaltusahmedabad.co.in
-                            </a>
-                            <div class="text-gray-300 pt-2">
-                                <span class="block text-gray-500 text-[10px] uppercase tracking-wider mb-1">Visit Us</span>
-                                Plot No. 99, Besides GMDC,<br>Vastrapur, Ahmedabad
-                            </div>
-                        </div>
-                    </div>
-
+            <!-- Hamburger Menu Icon -->
+            <button id="menuToggleBtn" aria-label="Toggle menu" aria-expanded="false" aria-controls="navDropdown" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition group shrink-0">
+                <div class="w-5 h-4 relative flex flex-col justify-between">
+                    <span class="w-full h-[2px] bg-navy transition-all duration-300 origin-left group-[.is-open]:rotate-45 group-[.is-open]:translate-y-[1px]"></span>
+                    <span class="w-full h-[2px] bg-navy transition-all duration-300 group-[.is-open]:opacity-0"></span>
+                    <span class="w-full h-[2px] bg-navy transition-all duration-300 origin-left group-[.is-open]:-rotate-45 group-[.is-open]:-translate-y-[1px]"></span>
                 </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- ================= POPUP FORM (Schedule Visit) ================= -->
-    <div id="visitModal" class="modal-overlay">
-        <div class="modal-box bg-white max-w-[400px] w-full mx-auto rounded-sm shadow-[0_30px_80px_rgba(0,0,0,0.55)] overflow-hidden relative">
-            <div class="h-[3px] w-full bg-gradient-to-r from-gold-dark via-gold to-gold-dark"></div>
-            
-            <button id="closeModalBtn" class="absolute top-3 right-3 z-30 text-white/50 hover:text-gold transition-colors p-1 rounded-full hover:bg-white/10" aria-label="Close popup">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
-            
-            <div class="bg-navy-dark px-6 pt-6 pb-4 text-center relative overflow-hidden">
-                <div class="relative z-10">
-                    <div class="flex justify-center mb-2">
-                        <div class="w-10 h-10 border border-gold/40 rotate-45 flex items-center justify-center">
-                            <span class="text-gold font-serif text-lg -rotate-45 font-semibold">A</span>
+        </div>
+    </div>
+
+    <!-- ================= DROPDOWN MENU ================= -->
+    <div id="navDropdown" class="nav-dropdown absolute top-full left-0 w-full bg-navy-dark border-t border-white/10 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-6 py-6 md:py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+
+                <!-- Column 1 -->
+                <div>
+                    <h4 class="text-gold text-[10px] font-bold tracking-[0.3em] uppercase mb-4 md:mb-5">Explore</h4>
+                    <ul class="space-y-3 md:space-y-4">
+                        <li><a href="index.html" class="text-gray-300 hover:text-gold text-base md:text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Home</a></li>
+                        <li><a href="about.html" class="text-gray-300 hover:text-gold text-base md:text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>About the Landmark</a></li>
+                        <li><a href="residence.html" class="text-gray-300 hover:text-gold text-base md:text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Residences</a></li>
+                        <li><a href="amenities.html" class="text-gray-300 hover:text-gold text-base md:text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Amenities</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 2 -->
+                <div>
+                    <h4 class="text-gold text-[10px] font-bold tracking-[0.3em] uppercase mb-4 md:mb-5">Discover</h4>
+                    <ul class="space-y-3 md:space-y-4">
+                        <li><a href="contact.html" class="text-gray-300 hover:text-gold text-base md:text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Location &amp; Contact</a></li>
+                        <li><a href="gallery.html" class="text-gray-300 hover:text-gold text-base md:text-lg font-serif transition-colors flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full opacity-0 transition-opacity hover:opacity-100"></span>Gallery</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3 -->
+                <div>
+                    <h4 class="text-gold text-[10px] font-bold tracking-[0.3em] uppercase mb-4 md:mb-5">Get in Touch</h4>
+                    <div class="space-y-4 text-sm font-light">
+                        <a href="tel:919702053758" class="block text-gray-300 hover:text-white transition">
+                            <span class="block text-gray-500 text-[10px] uppercase tracking-wider mb-1">Call Us</span>
+                            +91 97020 53758
+                        </a>
+
+                        <!-- Desktop-only contact details -->
+                        <a href="mailto:care@referindia.in" class="hidden md:block text-gray-300 hover:text-white transition">
+                            <span class="block text-gray-500 text-[10px] uppercase tracking-wider mb-1">Email Us</span>
+                            care@referindia.in
+                        </a>
+                        <div class="hidden md:block text-gray-300 pt-2">
+                            <span class="block text-gray-500 text-[10px] uppercase tracking-wider mb-1">Visit Us</span>
+                            11/1908, Sunteck MAXXWorld, Naigaon East Vasai Link Rd,<br>Naigaon East, Mumbai, Tivri, Maharashtra 401208
                         </div>
                     </div>
-                    <p class="text-gold text-[9px] tracking-[0.4em] uppercase font-semibold mb-1">Private Invitation</p>
-                    <h3 class="text-white font-serif text-2xl leading-tight tracking-wide">Schedule a Visit</h3>
-                    <p class="text-gray-400 text-[10px] tracking-[0.2em] uppercase mt-1">Godrej Altus · Vastrapur</p>
                 </div>
-            </div>
-            
-            <div class="px-6 pt-5 pb-6">
-                <p class="text-gray-500 text-xs text-center font-light leading-relaxed mb-5">Fill in your details and our team will arrange a private walkthrough at your convenience.</p>
-                
-                <form id="visitForm" class="space-y-4" onsubmit="event.preventDefault(); alert('Thank you! Our team will contact you to confirm your visit.'); closeModal();">
-                    <div><label class="premium-label">Full Name</label><input type="text" placeholder="Your full name" required class="premium-input"></div>
-                    <div><label class="premium-label">Phone Number</label><input type="tel" placeholder="+91 00000 00000" required class="premium-input"></div>
-                    <div><label class="premium-label">Preferred Date</label><input type="date" required class="premium-input text-gray-500"></div>
-                    
-                    <div class="pt-2">
-                        <button type="submit" class="btn-gold-shimmer w-full relative bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-white font-bold py-3.5 rounded-sm transition-all duration-300 text-[11px] tracking-[0.2em] uppercase shadow-[0_8px_24px_rgba(217,26,91,0.35)] hover:shadow-[0_12px_32px_rgba(217,26,91,0.5)] hover:-translate-y-0.5">
-                            <span class="relative z-10 flex items-center justify-center gap-2">
-                                Confirm Visit
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                            </span>
-                        </button>
-                    </div>
-                </form>
+
             </div>
         </div>
     </div>
+</header>
+
+<style>
+    /* Dropdown hidden by default, animated open/close */
+    .nav-dropdown {
+        display: block;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-8px);
+        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+        pointer-events: none;
+        max-height: calc(100vh - 80px);
+        overflow-y: auto;
+    }
+
+    .nav-dropdown.is-open {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    /* Prevent background scroll when menu is open on mobile */
+    body.menu-open {
+        overflow: hidden;
+    }
+
+    @media (max-width: 640px) {
+        /* On small screens, dropdown fills remaining viewport and scrolls internally */
+        .nav-dropdown.is-open {
+            max-height: calc(100vh - 72px);
+            overflow-y: auto;
+        }
+    }
+</style>
+
 
 <!-- ================= MAIN HERO SECTION ================= -->
     <main class="flex-grow relative flex flex-col justify-between hero-bg min-h-[calc(100vh-80px)] overflow-hidden">
-        
-        <!-- Background Overlay (Adjusted to match the image vibe) -->
-        <div class="absolute inset-0 bg-gradient-to-b from-[#1A020A]/80 via-transparent to-[#1A020A]/95 md:bg-gradient-to-r md:from-[#1A020A]/95 md:via-[#2E0515]/70 md:to-[#2E0515]/30 pointer-events-none z-0"></div>
+
+        <!-- Background Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-b from-[#1A020A]/85 via-[#1A020A]/60 to-[#1A020A]/95 md:bg-gradient-to-r md:from-[#1A020A]/95 md:via-[#2E0515]/80 md:to-[#2E0515]/40 pointer-events-none z-0"></div>
 
         <!-- ================= HERO NAVIGATION ================= -->
         <div id="heroNavWrapper" class="w-full px-4 md:px-12 py-5 flex justify-center md:justify-end items-center z-30 text-white transition-all duration-300">
-            
-            <!-- Mobile Nav (Visible only on small screens, mimicking the image) -->
+
+            <!-- Mobile Nav -->
             <nav id="heroNavLinks" class="flex lg:hidden items-center justify-between w-full text-[11px] sm:text-sm font-medium tracking-wide">
                 <a href="#overview" class="hover:text-gold transition">Overview</a>
                 <a href="contact.html" class="hover:text-gold transition">Location</a>
@@ -383,7 +447,7 @@ body {
                 <a href="amenities.html" class="hover:text-gold transition">Amenities</a>
             </nav>
 
-            <!-- Desktop Nav (Visible only on large screens) -->
+            <!-- Desktop Nav -->
             <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold tracking-wider">
                 <a href="#overview" class="hover:text-gold transition whitespace-nowrap">Overview</a>
                 <a href="contact.html" class="hover:text-gold transition whitespace-nowrap">Location</a>
@@ -393,41 +457,120 @@ body {
             </nav>
         </div>
 
-        <!-- Center Top: Project Logo & Title -->
-        <div class="relative z-10 w-full px-6 flex flex-col items-center justify-start pt-6 md:pt-16 pointer-events-none">
-            <p class="text-[9px] md:text-[10px] tracking-[0.4em] uppercase text-gray-300 mb-4 font-semibold">Introducing</p>
-            
-            <!-- Logo and Text Group -->
-            <div class="flex flex-col items-center justify-center gap-3">
-                <!-- Diamond Logo Shape -->
-                <div class="relative w-12 h-12 md:w-16 md:h-16 flex items-center justify-center">
-                    <div class="absolute w-8 h-8 md:w-10 md:h-10 border border-gold/60 rotate-45 flex items-center justify-center bg-navy/40 backdrop-blur-sm">
-                        <span class="text-gold font-serif text-lg md:text-xl -rotate-45 font-semibold">A</span>
+        <!-- ================= MAIN CONTENT GRID ================= -->
+        <div class="relative z-10 w-full flex-grow flex items-center">
+            <div class="max-w-7xl mx-auto w-full px-6 md:px-12 py-8 md:py-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+
+                    <!-- ===== LEFT: Brand + Project Details ===== -->
+                    <div class="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
+
+                        <!-- Eyebrow -->
+                        <p class="text-[9px] md:text-[10px] tracking-[0.4em] uppercase text-gray-300 mb-6 font-semibold flex items-center gap-3">
+                            <span class="hidden lg:inline-block w-10 h-[1px] bg-gold"></span>
+                            Introducing
+                        </p>
+
+                        <!-- Logo + Brand -->
+                        <div class="flex flex-col items-center lg:items-start gap-5 mb-8">
+                            <!-- Diamond Logo -->
+                            <div class="relative w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">
+                                <div class="absolute w-9 h-9 md:w-10 md:h-10 border border-gold/60 rotate-45 flex items-center justify-center bg-navy/40 backdrop-blur-sm">
+                                    <span class="text-gold font-serif text-lg md:text-xl -rotate-45 font-semibold">A</span>
+                                </div>
+                            </div>
+
+                            <!-- Brand Text -->
+                            <div class="text-center lg:text-left">
+                                <h1 class="text-3xl md:text-5xl font-serif tracking-[0.18em] font-light text-white leading-none whitespace-nowrap">GODREJ ALTUS</h1>
+                                <p class="text-[9px] md:text-xs tracking-[0.3em] text-gray-300 mt-3 font-sans uppercase">Vastrapur, Ahmedabad</p>
+                            </div>
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="w-16 h-[2px] bg-gold mb-8 hidden lg:block"></div>
+
+                        <!-- Tagline -->
+                        <p class="text-gray-200 text-base md:text-lg font-light leading-relaxed max-w-lg mb-8">
+                            An exclusive collection of 3 &amp; 4 BHK luxury residences in the heart of Vastrapur — where legacy meets modern elegance.
+                        </p>
+
+                        <!-- Project Details -->
+                        <div class="text-white">
+                            <div class="flex flex-wrap justify-center lg:justify-start items-center gap-x-3 gap-y-2 text-sm font-medium text-gray-200">
+                                <span class="text-gold font-semibold">INR 3.59 Cr.</span>
+                                <span class="text-gray-500 hidden sm:inline">|</span>
+                                <span>Possession Nov 2031</span>
+                                <span class="text-gray-500 hidden sm:inline">|</span>
+                                <span>3 &amp; 4 BHK</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                
-                <!-- Brand Text -->
-                <div class="text-center">
-                    <h1 class="text-2xl md:text-4xl font-serif tracking-[0.2em] font-light text-white leading-none whitespace-nowrap">GODREJ ALTUS</h1>
-                    <p class="text-[9px] md:text-xs tracking-[0.3em] text-gray-300 mt-2 font-sans uppercase">Vastrapur, Ahmedabad</p>
+
+                    <!-- ===== RIGHT: Contact Form ===== -->
+                    <div class="lg:col-span-5 w-full">
+                        <div class="bg-navy-dark/70 backdrop-blur-md border border-white/15 rounded-sm shadow-[0_30px_80px_rgba(0,0,0,0.55)] overflow-hidden relative">
+
+                            <!-- Gold top bar -->
+                            <div class="h-[3px] w-full bg-gradient-to-r from-gold-dark via-gold to-gold-dark"></div>
+
+                            <!-- Form Header -->
+                            <div class="px-6 md:px-7 pt-6 pb-4 border-b border-white/10">
+                                <p class="text-gold text-[9px] tracking-[0.35em] uppercase font-semibold mb-1">Exclusive Invitation</p>
+                                <h3 class="text-white font-serif text-2xl leading-tight">Enquire Now</h3>
+                                <p class="text-gray-400 text-[11px] mt-1.5 font-light">Get instant callback, private brochure &amp; pre-launch pricing.</p>
+                            </div>
+
+                            <!-- Form Body -->
+                            <div class="px-6 md:px-7 py-5">
+                                <form class="WhatsappBookingForm space-y-3.5" action="#" method="post">
+                                    <div>
+                                        <label for="heroName" class="sr-only">Full Name</label>
+                                        <input type="text" id="heroName" name="name" placeholder="Full Name*" required
+                                            class="w-full bg-white/5 border border-white/20 text-white placeholder-gray-400 text-sm px-4 py-3 rounded-sm focus:outline-none focus:border-gold focus:bg-white/10 transition-colors" />
+                                    </div>
+                                    <div>
+                                        <label for="heroPhone" class="sr-only">Phone Number</label>
+                                        <input type="tel" id="heroPhone" name="phone" placeholder="Phone Number*" required
+                                            pattern="[0-9+\s-]{7,15}"
+                                            class="w-full bg-white/5 border border-white/20 text-white placeholder-gray-400 text-sm px-4 py-3 rounded-sm focus:outline-none focus:border-gold focus:bg-white/10 transition-colors" />
+                                    </div>
+                                    <div>
+                                        <label for="heroEmail" class="sr-only">Email Address</label>
+                                        <input type="email" id="heroEmail" name="email" placeholder="Email Address*" required
+                                            class="w-full bg-white/5 border border-white/20 text-white placeholder-gray-400 text-sm px-4 py-3 rounded-sm focus:outline-none focus:border-gold focus:bg-white/10 transition-colors" />
+                                    </div>
+                                    <div>
+                                        <label for="heroConfig" class="sr-only">Configuration</label>
+                                        <select id="heroConfig" name="configuration"
+                                            class="w-full bg-white/5 border border-white/20 text-white text-sm px-4 py-3 rounded-sm focus:outline-none focus:border-gold focus:bg-white/10 transition-colors appearance-none">
+                                            <option value="" class="bg-navy-dark text-gray-400">Select Configuration</option>
+                                            <option value="3-bhk-premium" class="bg-navy-dark text-white">3 BHK Premium</option>
+                                            <option value="3-bhk-luxury" class="bg-navy-dark text-white">3 BHK Luxury</option>
+                                            <option value="4-bhk-premium" class="bg-navy-dark text-white">4 BHK Premium</option>
+                                            <option value="4-bhk-luxury" class="bg-navy-dark text-white">4 BHK Luxury</option>
+                                        </select>
+                                    </div>
+
+                                    <button type="submit"
+                                        class="group relative overflow-hidden w-full bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-white text-center px-8 py-3.5 rounded-sm font-semibold tracking-[0.2em] text-[11px] uppercase transition-all duration-300 shadow-[0_10px_35px_rgba(217,26,91,0.4)] hover:shadow-[0_15px_45px_rgba(217,26,91,0.6)] hover:-translate-y-0.5 border border-transparent hover:border-white/40 mt-1">
+                                        <span class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/40 to-transparent"></span>
+                                        <span class="relative z-10 flex items-center justify-center gap-2">
+                                            Request Callback
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                                        </span>
+                                    </button>
+
+                                    <p class="text-[10px] text-gray-500 text-center leading-relaxed pt-1">By submitting, you agree to be contacted regarding Godrej Altus. Your details are confidential.</p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
 
-        <!-- Bottom Left: Project Details Box -->
-        <div class="relative z-20 w-full px-6 md:px-12 py-8 mt-auto flex flex-col items-center md:items-start pointer-events-none">
-            <div class="text-white text-center md:text-left">
-                <h2 class="text-3xl md:text-4xl font-serif mb-1">Godrej Altus</h2>
-                <p class="text-lg font-light text-gray-200 mb-3">Vastrapur, Ahmedabad</p>
-                <div class="flex flex-wrap justify-center md:justify-start items-center gap-x-3 gap-y-1 text-sm font-medium text-gray-200">
-                    <span>INR 3.59 Cr. onwards</span>
-                    <span class="text-gray-400 hidden sm:inline">|</span>
-                    <span>Possession November 2031</span>
-                    <span class="text-gray-400 hidden sm:inline">|</span>
-                    <span>3 &amp; 4 BHK</span>
-                </div>
-            </div>
-        </div>
     </main>
 
 <style>
@@ -458,7 +601,6 @@ body {
         animation: heroSlideDown 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* Text forced to white when sticky */
     #heroNavWrapper.hero-nav-sticky a {
         color: #ffffff;
     }
@@ -466,7 +608,6 @@ body {
         color: #D91A5B;
     }
 
-    /* On desktop sticky, match padding */
     @media (min-width: 1024px) {
         #heroNavWrapper.hero-nav-sticky {
             padding-left: 3rem;
@@ -477,6 +618,12 @@ body {
     @keyframes heroSlideDown {
         from { transform: translateY(-100%); }
         to   { transform: translateY(0); }
+    }
+
+    /* Native select dropdown options readable on dark bg */
+    #heroConfig option {
+        background-color: #1A020A;
+        color: #ffffff;
     }
 </style>
 
@@ -490,7 +637,6 @@ body {
         function updateTriggerPoint() {
             const wasSticky = heroNav.classList.contains('hero-nav-sticky');
             if (wasSticky) heroNav.classList.remove('hero-nav-sticky');
-            // Get the original position in the document
             triggerPoint = heroNav.getBoundingClientRect().top + window.pageYOffset;
             if (wasSticky) heroNav.classList.add('hero-nav-sticky');
         }
@@ -575,7 +721,7 @@ body {
 
             <!-- Full Width Image -->
             <div class="relative w-full h-[400px] md:h-[600px] overflow-hidden rounded-sm shadow-xl">
-                <img src="https://ik.imagekit.io/iuiy6mihw/godrej/godrej_clone2.jpeg" 
+                <img src="https://ik.imagekit.io/iuiy6mihw/godrej/godrej_clone2.jpeg" loading="lazy"
                      alt="Godrej Altus Overview" 
                      class="w-full h-full object-cover transition-transform duration-[1500ms] hover:scale-105">
                 
@@ -584,6 +730,1069 @@ body {
 
         </div>
     </section>
+
+<!-- ========== ABOUT GODREJ ALTUS — HOMEPAGE SECTION ========== -->
+<section id="about" class="py-20 md:py-28 bg-[#F9F9F9] relative overflow-hidden">
+
+    <!-- Subtle Background Texture -->
+    <div class="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8L3N2Zz4=')] pointer-events-none"></div>
+
+    <!-- Soft Decorative Glows -->
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-gold/[0.04] rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-navy/[0.03] rounded-full blur-[100px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+
+        <!-- Section Header -->
+        <div class="text-center mb-14 md:mb-20" data-aos="fade-up">
+            <div class="flex items-center justify-center gap-4 mb-5">
+                <span class="w-12 md:w-20 h-[1px] bg-gradient-to-r from-transparent to-gold/60"></span>
+                <h2 class="text-gold text-[10px] md:text-xs font-bold tracking-[0.4em] md:tracking-[0.5em] uppercase">About Godrej Altus</h2>
+                <span class="w-12 md:w-20 h-[1px] bg-gradient-to-l from-transparent to-gold/60"></span>
+            </div>
+            <h3 class="text-3xl md:text-5xl lg:text-6xl font-serif text-navy leading-tight mb-5">
+                A Rare Confluence of <br>
+                <span class="italic text-transparent bg-clip-text bg-gradient-to-r from-gold-dark via-gold to-gold-light">Lifestyle.</span>
+            </h3>
+            <p class="text-gray-500 text-sm md:text-base mt-4 max-w-2xl mx-auto font-light tracking-wide leading-relaxed">
+                Set within Mumbai's flourishing western corridor, Naigaon East embodies a rare confluence of seamless connectivity, refined lifestyle and effortless everyday convenience.
+            </p>
+        </div>
+
+        <!-- Two-Column: Image + Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+            <!-- Left: Premium Image (clean — no text overlays) -->
+            <div class="relative" data-aos="fade-right" data-aos-duration="1000">
+                <!-- Offset Borders -->
+                <div class="absolute -top-5 -left-5 w-full h-full border border-gold/30 rounded-sm pointer-events-none"></div>
+                <div class="absolute -bottom-5 -right-5 w-full h-full border border-navy/10 rounded-sm pointer-events-none"></div>
+
+                <!-- Main Image -->
+                <div class="relative overflow-hidden rounded-sm shadow-[0_30px_60px_rgba(46,5,21,0.15)] group">
+                    <img src="https://ik.imagekit.io/iuiy6mihw/godrej/vision.avif" loading="lazy"
+                         alt="Godrej Altus — Luxury Residences in Naigaon East, Mumbai" 
+                         class="w-full h-[400px] md:h-[550px] object-cover transition-all duration-[1500ms] group-hover:scale-105 grayscale-[15%] group-hover:grayscale-0">
+                    
+                    <!-- Inner Border Frame -->
+                    <div class="absolute inset-4 border border-white/20 pointer-events-none rounded-sm"></div>
+                    
+                    <!-- Gold Corner Accents -->
+                    <div class="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-gold/80 pointer-events-none"></div>
+                    <div class="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-gold/80 pointer-events-none"></div>
+                    <div class="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-gold/80 pointer-events-none"></div>
+                    <div class="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-gold/80 pointer-events-none"></div>
+                </div>
+            </div>
+
+            <!-- Right: Text Content -->
+            <div class="relative" data-aos="fade-left" data-aos-duration="1000">
+
+                <!-- Label -->
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="w-8 h-[1px] bg-gold/50"></span>
+                    <h2 class="text-gold text-[10px] md:text-xs font-bold tracking-[0.4em] uppercase">The Landmark</h2>
+                </div>
+
+                <!-- Headline -->
+                <h3 class="text-3xl md:text-4xl lg:text-5xl font-serif text-navy leading-tight mb-7">
+                    Where the City’s <br>
+                    <span class="italic text-transparent bg-clip-text bg-gradient-to-r from-gold-dark via-gold to-gold-light">Finest Converge.</span>
+                </h3>
+
+                <!-- Body Copy -->
+                <div class="border-l-2 border-gold/20 pl-6 space-y-4 mb-8">
+                    <p class="text-gray-600 text-sm md:text-base font-light leading-relaxed">
+                        Framed by well-established neighbourhoods, upscale retail boulevards and vibrant leisure destinations, Naigaon East presents a distinctly elevated urban milieu. With a robust residential catchment and a cultivated social fabric, it reveals itself as one of the city’s most coveted and distinguished addresses.
+                    </p>
+                    <p class="text-gray-600 text-sm md:text-base font-light leading-relaxed">
+                        Godrej Altus is a landmark luxury residential project by Godrej Properties — 215 exclusive 3 &amp; 4 BHK homes set across 3.06 acres, designed to offer a refined and contemporary expression of luxury living.
+                    </p>
+                </div>
+
+                <!-- Key Facts Strip -->
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <div class="bg-white border border-gray-200 rounded-sm p-4 text-center hover:border-gold/40 transition-colors duration-300">
+                        <p class="text-[9px] text-gray-400 tracking-[0.2em] uppercase mb-1">Configuration</p>
+                        <p class="text-navy font-serif text-lg">3 &amp; 4 BHK</p>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded-sm p-4 text-center hover:border-gold/40 transition-colors duration-300">
+                        <p class="text-[9px] text-gray-400 tracking-[0.2em] uppercase mb-1">Possession</p>
+                        <p class="text-navy font-serif text-lg">Nov 2031</p>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded-sm p-4 text-center hover:border-gold/40 transition-colors duration-300">
+                        <p class="text-[9px] text-gray-400 tracking-[0.2em] uppercase mb-1">RERA No.</p>
+                        <p class="text-navy font-serif text-sm md:text-base">MAA16636/240326/071131</p>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded-sm p-4 text-center hover:border-gold/40 transition-colors duration-300">
+                        <p class="text-[9px] text-gray-400 tracking-[0.2em] uppercase mb-1">Developer</p>
+                        <p class="text-navy font-serif text-lg">Godrej Properties</p>
+                    </div>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="about_us.html" class="group relative overflow-hidden bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-white px-8 py-3.5 rounded-sm font-semibold tracking-widest text-[11px] uppercase text-center transition-all duration-300 shadow-[0_10px_30px_rgba(217,26,91,0.3)] hover:shadow-[0_15px_40px_rgba(217,26,91,0.5)] hover:-translate-y-0.5">
+                        <span class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/40 to-transparent"></span>
+                        <span class="relative z-10">Discover More</span>
+                    </a>
+                    <a href="tel:919702053758" class="border border-navy/20 hover:border-gold hover:bg-gold/5 text-navy hover:text-gold px-8 py-3.5 rounded-sm font-semibold tracking-widest text-[11px] uppercase text-center transition-all duration-300 flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-gold" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                        </svg>
+                        Enquire Now
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ========== END ABOUT SECTION ========== -->
+
+<!-- ========== RESIDENCES — HOMEPAGE PREMIUM SECTION ========== -->
+<section id="residences" class="py-20 md:py-28 bg-white relative overflow-hidden">
+
+    <!-- Subtle Texture -->
+    <div class="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8L3N2Zz4=')] pointer-events-none"></div>
+
+    <!-- Giant Decorative Letter -->
+    <div class="absolute -right-20 top-20 text-[28rem] font-serif text-navy/[0.03] leading-none select-none pointer-events-none">R</div>
+
+    <!-- Soft Glows -->
+    <div class="absolute top-1/3 left-0 w-[400px] h-[400px] bg-gold/[0.04] rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-navy/[0.03] rounded-full blur-[100px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+
+        <!-- Section Header -->
+        <div class="text-center mb-14 md:mb-20" data-aos="fade-up">
+            <div class="flex items-center justify-center gap-4 mb-5">
+                <span class="w-12 md:w-20 h-[1px] bg-gradient-to-r from-transparent to-gold/60"></span>
+                <h2 class="text-gold text-[10px] md:text-xs font-bold tracking-[0.4em] md:tracking-[0.5em] uppercase">The Residences</h2>
+                <span class="w-12 md:w-20 h-[1px] bg-gradient-to-l from-transparent to-gold/60"></span>
+            </div>
+            <h3 class="text-3xl md:text-5xl lg:text-6xl font-serif text-navy leading-tight mb-5">
+                Three Expressions <br>
+                <span class="italic text-transparent bg-clip-text bg-gradient-to-r from-gold-dark via-gold to-gold-light">of Luxury.</span>
+            </h3>
+            <p class="text-gray-500 text-sm md:text-base mt-4 max-w-2xl mx-auto font-light tracking-wide leading-relaxed">
+                Each configuration is a distinct interpretation of the Altus philosophy — choose the one that speaks to you. Only 215 exclusive residences.
+            </p>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+
+            <!-- Card 1: 3 BHK Premium -->
+            <div class="group relative bg-white rounded-sm overflow-hidden border border-gray-200 hover:border-gold/50 shadow-[0_10px_30px_rgba(46,5,21,0.06)] hover:shadow-[0_25px_60px_rgba(217,26,91,0.15)] transition-all duration-500" data-aos="fade-up" data-aos-delay="100">
+
+                <!-- Image -->
+                <div class="relative h-[260px] overflow-hidden">
+                    <img src="https://ik.imagekit.io/iuiy6mihw/godrej/godrej1.webp" loading="lazy"
+                         alt="3 BHK Premium Residence"
+                         class="w-full h-full object-cover transition-transform duration-[1500ms] group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#1A020A]/70 via-transparent to-transparent"></div>
+
+                    <!-- Badge -->
+                    <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm text-navy text-[9px] font-bold px-3 py-1.5 uppercase tracking-[0.2em] rounded-sm shadow-lg">
+                        01 · Premium
+                    </div>
+
+                    <!-- Bottom Label -->
+                    <div class="absolute bottom-4 left-4 right-4">
+                        <p class="text-gold text-[9px] tracking-[0.3em] uppercase font-bold mb-1">The Opulent</p>
+                        <p class="text-white font-serif text-xl italic">Where every corner breathes space.</p>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-6">
+                    <h4 class="text-2xl font-serif text-navy mb-2">3 BHK Premium</h4>
+                    <p class="text-gray-500 text-xs font-light leading-relaxed mb-5">
+                        A thoughtfully designed three-bedroom apartment maximizing natural light and cross-ventilation.
+                    </p>
+
+                    <!-- Stats Strip -->
+                    <div class="grid grid-cols-2 gap-3 mb-5 pb-5 border-b border-gray-100">
+                        <div>
+                            <p class="text-[9px] uppercase tracking-[0.15em] text-gray-400 font-medium mb-1">Salable Area</p>
+                            <p class="font-serif text-base text-navy">3,076 <span class="text-[10px] text-gray-400 font-sans">sq.ft.</span></p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[9px] uppercase tracking-[0.15em] text-gray-400 font-medium mb-1">Starting</p>
+                            <p class="font-serif text-base text-gold">₹3.59 Cr*</p>
+                        </div>
+                    </div>
+
+                    <!-- Link -->
+                    <a href="residence.html" class="group/link flex items-center justify-between text-navy hover:text-gold transition-colors text-[11px] font-semibold tracking-[0.2em] uppercase">
+                        <span>Explore Layout</span>
+                        <svg class="w-4 h-4 transition-transform group-hover/link:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 2: 4 BHK Majestic (FEATURED) -->
+            <div class="group relative bg-[#1A020A] rounded-sm overflow-hidden border border-gold/50 shadow-[0_25px_70px_rgba(217,26,91,0.25)] hover:shadow-[0_35px_90px_rgba(217,26,91,0.4)] transition-all duration-500 md:-mt-4 md:mb-4" data-aos="fade-up" data-aos-delay="200">
+
+                <!-- Gold Top Accent -->
+                <div class="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-gold-dark via-gold to-gold-dark z-20"></div>
+
+                <!-- Most Coveted Ribbon -->
+                <div class="absolute top-0 right-0 bg-gold text-white text-[8px] font-bold px-3 py-1.5 uppercase tracking-[0.25em] rounded-bl-lg z-20 shadow-lg">
+                    Most Coveted
+                </div>
+
+                <!-- Image -->
+                <div class="relative h-[280px] overflow-hidden">
+                    <img src="https://ik.imagekit.io/iuiy6mihw/fortunate_interio/slider2_interio.avif?updatedAt=1791738178419"
+                         alt="4 BHK Majestic Residence"
+                         class="w-full h-full object-cover transition-transform duration-[1500ms] group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#1A020A] via-[#1A020A]/40 to-transparent"></div>
+
+                    <!-- Bottom Label -->
+                    <div class="absolute bottom-4 left-4 right-4">
+                        <p class="text-gold text-[9px] tracking-[0.3em] uppercase font-bold mb-1">Signature Collection</p>
+                        <p class="text-white font-serif text-xl italic">Where architecture becomes an experience.</p>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-6">
+                    <h4 class="text-2xl font-serif text-white mb-2">4 BHK <span class="italic text-gold">Majestic</span></h4>
+                    <p class="text-gray-400 text-xs font-light leading-relaxed mb-5">
+                        Double-height entrance, 12 ft ceilings, and a 55 ft running balcony redefine luxury apartment living.
+                    </p>
+
+                    <!-- Stats Strip -->
+                    <div class="grid grid-cols-2 gap-3 mb-5 pb-5 border-b border-white/10">
+                        <div>
+                            <p class="text-[9px] uppercase tracking-[0.15em] text-gray-500 font-medium mb-1">Salable Area</p>
+                            <p class="font-serif text-base text-white">4,084–4,127 <span class="text-[10px] text-gray-500 font-sans">sq.ft.</span></p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[9px] uppercase tracking-[0.15em] text-gray-500 font-medium mb-1">Starting</p>
+                            <p class="font-serif text-base text-gold">₹5.30 Cr*</p>
+                        </div>
+                    </div>
+
+                    <!-- Link -->
+                    <a href="residence.html" class="group/link flex items-center justify-between text-gold hover:text-gold-light transition-colors text-[11px] font-semibold tracking-[0.2em] uppercase">
+                        <span>Explore Layout</span>
+                        <svg class="w-4 h-4 transition-transform group-hover/link:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 3: 4 BHK Palatial -->
+            <div class="group relative bg-white rounded-sm overflow-hidden border border-gray-200 hover:border-gold/50 shadow-[0_10px_30px_rgba(46,5,21,0.06)] hover:shadow-[0_25px_60px_rgba(217,26,91,0.15)] transition-all duration-500" data-aos="fade-up" data-aos-delay="300">
+
+                <!-- Image -->
+                <div class="relative h-[260px] overflow-hidden">
+                    <img src="https://ik.imagekit.io/iuiy6mihw/fortunate_interio/home2_interio.jfif?updatedAt=1791737834529"
+                         alt="4 BHK Palatial Residence"
+                         class="w-full h-full object-cover transition-transform duration-[1500ms] group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#1A020A]/70 via-transparent to-transparent"></div>
+
+                    <!-- Badge -->
+                    <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm text-navy text-[9px] font-bold px-3 py-1.5 uppercase tracking-[0.2em] rounded-sm shadow-lg">
+                        03 · Palatial
+                    </div>
+
+                    <!-- Bottom Label -->
+                    <div class="absolute bottom-4 left-4 right-4">
+                        <p class="text-gold text-[9px] tracking-[0.3em] uppercase font-bold mb-1">The Palatial</p>
+                        <p class="text-white font-serif text-xl italic">Where luxury knows no bounds.</p>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-6">
+                    <h4 class="text-2xl font-serif text-navy mb-2">4 BHK Palatial</h4>
+                    <p class="text-gray-500 text-xs font-light leading-relaxed mb-5">
+                        The largest expression of Altus living — 55 ft running balcony, servant quarters, and three car parks.
+                    </p>
+
+                    <!-- Stats Strip -->
+                    <div class="grid grid-cols-2 gap-3 mb-5 pb-5 border-b border-gray-100">
+                        <div>
+                            <p class="text-[9px] uppercase tracking-[0.15em] text-gray-400 font-medium mb-1">Salable Area</p>
+                            <p class="font-serif text-base text-navy">4,608–4,769 <span class="text-[10px] text-gray-400 font-sans">sq.ft.</span></p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[9px] uppercase tracking-[0.15em] text-gray-400 font-medium mb-1">Starting</p>
+                            <p class="font-serif text-base text-gold">₹5.90 Cr*</p>
+                        </div>
+                    </div>
+
+                    <!-- Link -->
+                    <a href="residence.html" class="group/link flex items-center justify-between text-navy hover:text-gold transition-colors text-[11px] font-semibold tracking-[0.2em] uppercase">
+                        <span>Explore Layout</span>
+                        <svg class="w-4 h-4 transition-transform group-hover/link:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom CTA -->
+        <div class="text-center mt-14 md:mt-20" data-aos="fade-up">
+            <p class="text-gray-500 text-xs md:text-sm font-light mb-6 tracking-wide">
+                Only <span class="text-gold font-semibold">215 exclusive residences</span> — scheduled for possession November 2031.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="residence.html" class="group relative overflow-hidden inline-block bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-white px-10 py-4 rounded-sm font-semibold tracking-widest text-xs uppercase transition-all duration-300 shadow-[0_10px_30px_rgba(217,26,91,0.3)] hover:shadow-[0_15px_40px_rgba(217,26,91,0.5)] hover:-translate-y-0.5">
+                    <span class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/40 to-transparent"></span>
+                    <span class="relative z-10">View All Residences</span>
+                </a>
+                <a href="tel:919702053758" class="border border-navy/20 hover:border-gold hover:bg-gold/5 text-navy hover:text-gold px-10 py-4 rounded-sm font-semibold tracking-widest text-xs uppercase transition-all duration-300 flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                    </svg>
+                    Call 97020 53758
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- ========== END RESIDENCES SECTION ========== -->
+
+<!-- ========== AMENITIES — HOMEPAGE PREMIUM SECTION ========== -->
+<section id="amenities" class="relative overflow-hidden bg-white">
+
+    <!-- ============================================
+         PART 1: FEATURED AMENITY — THE CLUBHOUSE
+         ============================================ -->
+    <div class="relative py-20 md:py-28 bg-[#F9F6F2] overflow-hidden">
+
+        <div class="absolute inset-0 opacity-[0.025] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8L3N2Zz4=')] pointer-events-none"></div>
+        <div class="absolute -right-40 top-10 text-[28rem] font-serif text-navy/[0.03] leading-none select-none pointer-events-none">A</div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+                <!-- Image Side -->
+                <div class="relative order-1" data-aos="fade-right" data-aos-duration="1200">
+                    <div class="absolute -top-5 -left-5 w-full h-full border border-gold/40 rounded-sm pointer-events-none"></div>
+
+                    <div class="relative overflow-hidden rounded-sm shadow-[0_25px_60px_rgba(46,5,21,0.25)] group">
+                        <img src="https://ik.imagekit.io/iuiy6mihw/godrej/godrej_clone9.jpeg" loading="lazy"
+                             alt="The Clubhouse at Godrej Altus — ~20,000 sq.ft."
+                             class="w-full h-[420px] md:h-[540px] object-cover transition-all duration-[1500ms] group-hover:scale-105">
+
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#1A020A]/70 via-transparent to-transparent"></div>
+                        <div class="absolute inset-3 border border-white/20 rounded-sm pointer-events-none"></div>
+
+                        <div class="absolute top-3 left-3 w-6 h-6 border-t-2 border-l-2 border-gold/80 pointer-events-none"></div>
+                        <div class="absolute top-3 right-3 w-6 h-6 border-t-2 border-r-2 border-gold/80 pointer-events-none"></div>
+                        <div class="absolute bottom-3 left-3 w-6 h-6 border-b-2 border-l-2 border-gold/80 pointer-events-none"></div>
+                        <div class="absolute bottom-3 right-3 w-6 h-6 border-b-2 border-r-2 border-gold/80 pointer-events-none"></div>
+
+                        <div class="absolute top-5 right-5 bg-[#1A020A]/90 backdrop-blur-md px-4 py-3 rounded-sm border border-gold/40 shadow-xl">
+                            <p class="text-gold text-[8px] tracking-[0.3em] uppercase font-bold mb-1">Clubhouse</p>
+                            <p class="text-white font-serif text-2xl leading-none">~20,000 <span class="text-xs text-gray-400 font-sans">sq.ft.</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Side -->
+                <div class="order-2" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="150">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-8 h-[1px] bg-gold"></span>
+                        <span class="text-gold text-[10px] md:text-xs font-bold tracking-[0.3em] uppercase">The Signature Amenity</span>
+                    </div>
+
+                    <h2 class="text-3xl md:text-5xl lg:text-6xl font-serif text-navy leading-[1.1] mb-6">
+                        A Clubhouse <br>
+                        <span class="italic text-transparent bg-clip-text bg-gradient-to-r from-gold-dark via-gold to-gold-light">Beyond Compare.</span>
+                    </h2>
+
+                    <p class="text-gray-600 text-sm md:text-base font-light leading-relaxed mb-8 max-w-lg">
+                        Set across a sprawling ~20,000 sq.ft. clubhouse, residents enjoy a curated collection of amenities — from a swimming pool and fully equipped gym to a yoga and meditation deck. The clubhouse is placed within the same compound, so residents never need to step outside for recreation [citation:3][citation:5].
+                    </p>
+
+                    <!-- Feature Chips — Only Corroborated Amenities -->
+                    <div class="grid grid-cols-2 gap-3 mb-8">
+                        <div class="flex items-center gap-3 bg-white border border-gray-200 rounded-sm px-4 py-3 hover:border-gold/40 transition-colors duration-300">
+                            <div class="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center shrink-0">
+                                <svg class="w-4 h-4 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                            </div>
+                            <span class="text-xs font-medium text-navy">Swimming Pool</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white border border-gray-200 rounded-sm px-4 py-3 hover:border-gold/40 transition-colors duration-300">
+                            <div class="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center shrink-0">
+                                <svg class="w-4 h-4 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+                            </div>
+                            <span class="text-xs font-medium text-navy">Yoga / Meditation</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white border border-gray-200 rounded-sm px-4 py-3 hover:border-gold/40 transition-colors duration-300">
+                            <div class="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center shrink-0">
+                                <svg class="w-4 h-4 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                            </div>
+                            <span class="text-xs font-medium text-navy">Modern Gymnasium</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white border border-gray-200 rounded-sm px-4 py-3 hover:border-gold/40 transition-colors duration-300">
+                            <div class="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center shrink-0">
+                                <svg class="w-4 h-4 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" /></svg>
+                            </div>
+                            <span class="text-xs font-medium text-navy">Mini Theatre</span>
+                        </div>
+                    </div>
+
+                    <!-- CTA -->
+                    <a href="amenities.html" class="group inline-flex items-center gap-3 text-navy hover:text-gold transition-colors duration-300">
+                        <span class="w-10 h-10 rounded-full border border-navy/20 flex items-center justify-center group-hover:border-gold transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                        </span>
+                        <span class="text-[11px] font-semibold tracking-[0.2em] uppercase">View All Amenities</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         PART 2: AMENITIES GRID
+         ============================================ -->
+    <div class="py-20 md:py-28 bg-white relative overflow-hidden">
+
+        <div class="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8L3N2Zz4=')] pointer-events-none"></div>
+
+        <div class="absolute -top-20 -left-20 w-96 h-96 bg-gold/[0.04] rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-gold/[0.04] rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+
+            <!-- Section Header -->
+            <div class="text-center mb-14 md:mb-20" data-aos="fade-up">
+                <div class="flex items-center justify-center gap-4 mb-5">
+                    <span class="w-12 md:w-20 h-[1px] bg-gradient-to-r from-transparent to-gold/60"></span>
+                    <h2 class="text-gold text-[10px] md:text-xs font-bold tracking-[0.4em] md:tracking-[0.5em] uppercase">Curated Amenities</h2>
+                    <span class="w-12 md:w-20 h-[1px] bg-gradient-to-l from-transparent to-gold/60"></span>
+                </div>
+                <h3 class="text-3xl md:text-5xl lg:text-6xl font-serif text-navy leading-tight mb-5">
+                    A World of Leisure, <br>
+                    <span class="italic text-transparent bg-clip-text bg-gradient-to-r from-gold-dark via-gold to-gold-light">Privately Held.</span>
+                </h3>
+                <p class="text-gray-500 text-sm md:text-base mt-4 max-w-2xl mx-auto font-light tracking-wide leading-relaxed">
+                    From a swimming pool and modern gymnasium to a yoga deck and mini theatre — every amenity is curated to elevate your everyday.
+                </p>
+            </div>
+
+            <!-- Amenities Grid — Only Corroborated Amenities -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+
+                <!-- Mini Theatre -->
+                <div class="group relative bg-white border border-gray-200 rounded-sm p-6 text-center hover:border-gold/60 hover:shadow-[0_15px_35px_rgba(217,26,91,0.12)] hover:-translate-y-1 transition-all duration-500" data-aos="fade-up" data-aos-delay="50">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-gold/10 flex items-center justify-center group-hover:bg-gold group-hover:scale-110 transition-all duration-500">
+                        <svg class="w-7 h-7 text-gold group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                        </svg>
+                    </div>
+                    <h4 class="text-sm md:text-base font-semibold text-navy mb-1 group-hover:text-gold transition-colors">Mini Theatre</h4>
+                    <p class="text-[9px] md:text-[10px] text-gray-400 uppercase tracking-[0.15em]">Exclusive Screenings</p>
+                </div>
+
+                <!-- Swimming Pool -->
+                <div class="group relative bg-white border border-gray-200 rounded-sm p-6 text-center hover:border-gold/60 hover:shadow-[0_15px_35px_rgba(217,26,91,0.12)] hover:-translate-y-1 transition-all duration-500" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-gold/10 flex items-center justify-center group-hover:bg-gold group-hover:scale-110 transition-all duration-500">
+                        <svg class="w-7 h-7 text-gold group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                        </svg>
+                    </div>
+                    <h4 class="text-sm md:text-base font-semibold text-navy mb-1 group-hover:text-gold transition-colors">Swimming Pool</h4>
+                    <p class="text-[9px] md:text-[10px] text-gray-400 uppercase tracking-[0.15em]">Open-Air Deck</p>
+                </div>
+
+                <!-- Kids' Pool -->
+                <div class="group relative bg-white border border-gray-200 rounded-sm p-6 text-center hover:border-gold/60 hover:shadow-[0_15px_35px_rgba(217,26,91,0.12)] hover:-translate-y-1 transition-all duration-500" data-aos="fade-up" data-aos-delay="150">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-gold/10 flex items-center justify-center group-hover:bg-gold group-hover:scale-110 transition-all duration-500">
+                        <svg class="w-7 h-7 text-gold group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h4 class="text-sm md:text-base font-semibold text-navy mb-1 group-hover:text-gold transition-colors">Kids' Pool</h4>
+                    <p class="text-[9px] md:text-[10px] text-gray-400 uppercase tracking-[0.15em]">Family Time</p>
+                </div>
+
+                <!-- Modern Gymnasium -->
+                <div class="group relative bg-white border border-gray-200 rounded-sm p-6 text-center hover:border-gold/60 hover:shadow-[0_15px_35px_rgba(217,26,91,0.12)] hover:-translate-y-1 transition-all duration-500" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-gold/10 flex items-center justify-center group-hover:bg-gold group-hover:scale-110 transition-all duration-500">
+                        <svg class="w-7 h-7 text-gold group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h4 class="text-sm md:text-base font-semibold text-navy mb-1 group-hover:text-gold transition-colors">Modern Gymnasium</h4>
+                    <p class="text-[9px] md:text-[10px] text-gray-400 uppercase tracking-[0.15em]">Fitness Centre</p>
+                </div>
+
+                <!-- Yoga / Meditation Zone -->
+                <div class="group relative bg-white border border-gray-200 rounded-sm p-6 text-center hover:border-gold/60 hover:shadow-[0_15px_35px_rgba(217,26,91,0.12)] hover:-translate-y-1 transition-all duration-500" data-aos="fade-up" data-aos-delay="250">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-gold/10 flex items-center justify-center group-hover:bg-gold group-hover:scale-110 transition-all duration-500">
+                        <svg class="w-7 h-7 text-gold group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                        </svg>
+                    </div>
+                    <h4 class="text-sm md:text-base font-semibold text-navy mb-1 group-hover:text-gold transition-colors">Yoga / Meditation Zone</h4>
+                    <p class="text-[9px] md:text-[10px] text-gray-400 uppercase tracking-[0.15em]">Tranquil Retreat</p>
+                </div>
+
+                <!-- Indoor Games Room -->
+                <div class="group relative bg-white border border-gray-200 rounded-sm p-6 text-center hover:border-gold/60 hover:shadow-[0_15px_35px_rgba(217,26,91,0.12)] hover:-translate-y-1 transition-all duration-500" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-gold/10 flex items-center justify-center group-hover:bg-gold group-hover:scale-110 transition-all duration-500">
+                        <svg class="w-7 h-7 text-gold group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+                        </svg>
+                    </div>
+                    <h4 class="text-sm md:text-base font-semibold text-navy mb-1 group-hover:text-gold transition-colors">Indoor Games Room</h4>
+                    <p class="text-[9px] md:text-[10px] text-gray-400 uppercase tracking-[0.15em]">Recreation</p>
+                </div>
+
+                <!-- Multipurpose Hall -->
+                <div class="group relative bg-white border border-gray-200 rounded-sm p-6 text-center hover:border-gold/60 hover:shadow-[0_15px_35px_rgba(217,26,91,0.12)] hover:-translate-y-1 transition-all duration-500" data-aos="fade-up" data-aos-delay="350">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-gold/10 flex items-center justify-center group-hover:bg-gold group-hover:scale-110 transition-all duration-500">
+                        <svg class="w-7 h-7 text-gold group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                    </div>
+                    <h4 class="text-sm md:text-base font-semibold text-navy mb-1 group-hover:text-gold transition-colors">Multipurpose Hall</h4>
+                    <p class="text-[9px] md:text-[10px] text-gray-400 uppercase tracking-[0.15em]">Celebrations</p>
+                </div>
+
+                <!-- Landscaped Garden -->
+                <div class="group relative bg-white border border-gray-200 rounded-sm p-6 text-center hover:border-gold/60 hover:shadow-[0_15px_35px_rgba(217,26,91,0.12)] hover:-translate-y-1 transition-all duration-500" data-aos="fade-up" data-aos-delay="400">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-gold/10 flex items-center justify-center group-hover:bg-gold group-hover:scale-110 transition-all duration-500">
+                        <svg class="w-7 h-7 text-gold group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h4 class="text-sm md:text-base font-semibold text-navy mb-1 group-hover:text-gold transition-colors">Landscaped Garden</h4>
+                    <p class="text-[9px] md:text-[10px] text-gray-400 uppercase tracking-[0.15em]">Greens &amp; Outdoors</p>
+                </div>
+
+                <!-- Jogging Track -->
+                <div class="group relative bg-white border border-gray-200 rounded-sm p-6 text-center hover:border-gold/60 hover:shadow-[0_15px_35px_rgba(217,26,91,0.12)] hover:-translate-y-1 transition-all duration-500" data-aos="fade-up" data-aos-delay="450">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-gold/10 flex items-center justify-center group-hover:bg-gold group-hover:scale-110 transition-all duration-500">
+                        <svg class="w-7 h-7 text-gold group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+                        </svg>
+                    </div>
+                    <h4 class="text-sm md:text-base font-semibold text-navy mb-1 group-hover:text-gold transition-colors">Jogging Track</h4>
+                    <p class="text-[9px] md:text-[10px] text-gray-400 uppercase tracking-[0.15em]">Active Living</p>
+                </div>
+
+                <!-- Kids' Play Area -->
+                <div class="group relative bg-white border border-gray-200 rounded-sm p-6 text-center hover:border-gold/60 hover:shadow-[0_15px_35px_rgba(217,26,91,0.12)] hover:-translate-y-1 transition-all duration-500" data-aos="fade-up" data-aos-delay="500">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-gold/10 flex items-center justify-center group-hover:bg-gold group-hover:scale-110 transition-all duration-500">
+                        <svg class="w-7 h-7 text-gold group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h4 class="text-sm md:text-base font-semibold text-navy mb-1 group-hover:text-gold transition-colors">Kids' Play Area</h4>
+                    <p class="text-[9px] md:text-[10px] text-gray-400 uppercase tracking-[0.15em]">Family Time</p>
+                </div>
+
+                <!-- Senior Citizens' Seating -->
+                <div class="group relative bg-white border border-gray-200 rounded-sm p-6 text-center hover:border-gold/60 hover:shadow-[0_15px_35px_rgba(217,26,91,0.12)] hover:-translate-y-1 transition-all duration-500" data-aos="fade-up" data-aos-delay="550">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-gold/10 flex items-center justify-center group-hover:bg-gold group-hover:scale-110 transition-all duration-500">
+                        <svg class="w-7 h-7 text-gold group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </div>
+                    <h4 class="text-sm md:text-base font-semibold text-navy mb-1 group-hover:text-gold transition-colors">Senior Citizens' Seating</h4>
+                    <p class="text-[9px] md:text-[10px] text-gray-400 uppercase tracking-[0.15em]">Quiet Comfort</p>
+                </div>
+
+                <!-- 24×7 CCTV Security -->
+                <div class="group relative bg-white border border-gray-200 rounded-sm p-6 text-center hover:border-gold/60 hover:shadow-[0_15px_35px_rgba(217,26,91,0.12)] hover:-translate-y-1 transition-all duration-500" data-aos="fade-up" data-aos-delay="600">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-gold/10 flex items-center justify-center group-hover:bg-gold group-hover:scale-110 transition-all duration-500">
+                        <svg class="w-7 h-7 text-gold group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <h4 class="text-sm md:text-base font-semibold text-navy mb-1 group-hover:text-gold transition-colors">24×7 CCTV Security</h4>
+                    <p class="text-[9px] md:text-[10px] text-gray-400 uppercase tracking-[0.15em]">Peace of Mind</p>
+                </div>
+
+            </div>
+
+    
+
+        </div>
+    </div>
+
+</section>
+<!-- ========== END AMENITIES SECTION ========== -->
+
+<!-- ========== DEVELOPER LEGACY — GODREJ PROPERTIES ========== -->
+<section id="developer" class="py-20 md:py-28 bg-navy-dark text-white relative overflow-hidden">
+
+    <!-- Background Texture -->
+    <div class="absolute inset-0 opacity-[0.06] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] pointer-events-none"></div>
+
+    <!-- Soft Decorative Glows -->
+    <div class="absolute -top-40 -left-40 w-[600px] h-[600px] bg-gold/[0.08] rounded-full blur-[150px] pointer-events-none"></div>
+    <div class="absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-gold/[0.05] rounded-full blur-[140px] pointer-events-none"></div>
+
+    <!-- Giant Decorative Letter -->
+    <div class="absolute -right-20 top-20 text-[28rem] font-serif text-white/[0.02] leading-none select-none pointer-events-none">G</div>
+
+    <!-- Fine Gold Vignette Line -->
+    <div class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold/40 to-transparent"></div>
+    <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold/40 to-transparent"></div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+
+        <!-- Section Header -->
+        <div class="text-center mb-14 md:mb-20" data-aos="fade-up">
+            <div class="flex items-center justify-center gap-4 mb-5">
+                <span class="w-12 md:w-20 h-[1px] bg-gradient-to-r from-transparent to-gold/60"></span>
+                <h2 class="text-gold text-[10px] md:text-xs font-bold tracking-[0.4em] md:tracking-[0.5em] uppercase">The Developer</h2>
+                <span class="w-12 md:w-20 h-[1px] bg-gradient-to-l from-transparent to-gold/60"></span>
+            </div>
+            <h3 class="text-3xl md:text-5xl lg:text-6xl font-serif leading-tight mb-5">
+                A Legacy of <br>
+                <span class="italic text-transparent bg-clip-text bg-gradient-to-r from-gold-dark via-gold-light to-gold-dark">Trust &amp; Excellence.</span>
+            </h3>
+            <p class="text-gray-400 text-sm md:text-base mt-4 max-w-2xl mx-auto font-light tracking-wide leading-relaxed">
+                Godrej Altus is developed by Godrej Properties — India’s largest residential developer by both value and volume of homes sold, and the real estate arm of the Godrej Industries Group.
+            </p>
+        </div>
+
+        <!-- Two-Column: Image + Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-16 md:mb-20">
+
+            <!-- Left: Premium Image -->
+            <div class="relative" data-aos="fade-right" data-aos-duration="1200">
+                <!-- Offset Border Frame -->
+                <div class="absolute -top-5 -left-5 w-full h-full border border-gold/30 rounded-sm pointer-events-none"></div>
+
+                <!-- Main Image -->
+                <div class="relative overflow-hidden rounded-sm shadow-[0_30px_80px_rgba(0,0,0,0.5)] group">
+                    <img src="https://ik.imagekit.io/iuiy6mihw/godrej/godrej_clone8.jpeg" loading="lazy"
+                         alt="Godrej Properties — Legacy of Excellence"
+                         class="w-full h-[420px] md:h-[540px] object-cover transition-all duration-[1500ms] group-hover:scale-105">
+
+                    <!-- Gradient Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#1A020A]/80 via-transparent to-transparent"></div>
+
+                    <!-- Inner Border -->
+                    <div class="absolute inset-4 border border-white/15 pointer-events-none rounded-sm"></div>
+
+                    <!-- Gold Corner Accents -->
+                    <div class="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-gold/80 pointer-events-none"></div>
+                    <div class="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-gold/80 pointer-events-none"></div>
+                    <div class="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-gold/80 pointer-events-none"></div>
+                    <div class="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-gold/80 pointer-events-none"></div>
+
+                    <!-- Floating Badge -->
+                    <div class="absolute top-5 right-5 bg-[#1A020A]/90 backdrop-blur-md px-4 py-3 rounded-sm border border-gold/40 shadow-xl">
+                        <p class="text-gold text-[8px] tracking-[0.3em] uppercase font-bold mb-1">Godrej Group</p>
+                        <p class="text-white font-serif text-2xl leading-none">Since 1897</p>
+                    </div>
+
+                    <!-- Bottom Label -->
+                    <div class="absolute bottom-6 left-6 z-10">
+                        <p class="text-gold text-[9px] tracking-[0.3em] uppercase font-bold mb-1">Godrej Properties</p>
+                        <p class="text-white font-serif text-lg tracking-wide">Real Estate Arm of the Godrej Industries Group</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Text Content -->
+            <div class="relative" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="150">
+
+                <!-- Label -->
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="w-8 h-[1px] bg-gold/50"></span>
+                    <h2 class="text-gold text-[10px] md:text-xs font-bold tracking-[0.4em] uppercase">Godrej Properties</h2>
+                </div>
+
+                <!-- Headline -->
+                <h3 class="text-3xl md:text-4xl lg:text-5xl font-serif leading-tight mb-7">
+                    Crafting Joy, <br>
+                    <span class="italic text-transparent bg-clip-text bg-gradient-to-r from-gold-dark via-gold-light to-gold-dark">Building a Century of Trust.</span>
+                </h3>
+
+                <!-- Body Copy -->
+                <div class="border-l-2 border-gold/20 pl-6 space-y-4">
+                    <p class="text-gray-400 text-sm md:text-base font-light leading-relaxed">
+                        At Godrej Properties, we are driven by a singular purpose — <span class="text-white font-medium">Crafting Joy</span>. Over 100,000 families have found a home with us, making GPL India’s largest residential developer by both value and volume of homes sold.
+                    </p>
+                    <p class="text-gray-400 text-sm md:text-base font-light leading-relaxed">
+                        As part of the Godrej Industries Group, we combine a 129-year legacy of trust and excellence with a forward-looking vision to shape the future of urban India. Our approach is anchored in four core principles: thoughtful design, sustainability, thriving communities, and uncompromising quality.
+                    </p>
+                    <p class="text-gray-400 text-sm md:text-base font-light leading-relaxed">
+                        This commitment has earned us global recognition, including being ranked the <span class="text-white font-medium">No. 1 real estate company worldwide</span> on both the Dow Jones Sustainability Index and the Global Real Estate Sustainability Benchmark as of December 2025.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================================
+             LEGACY STATS STRIP — Full Width
+             ============================================ -->
+        <div class="border-t border-white/10 pt-12 md:pt-16" data-aos="fade-up" data-aos-delay="200">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6 text-center">
+
+                <!-- Stat 1 -->
+                <div class="group">
+                    <p class="text-4xl md:text-5xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-gold-dark via-gold-light to-gold-dark mb-2 group-hover:scale-105 transition-transform duration-500 inline-block">129</p>
+                    <div class="w-8 h-[1px] bg-gold/40 mx-auto mb-3"></div>
+                    <p class="text-[10px] md:text-xs text-gray-400 uppercase tracking-[0.2em] font-medium">Years of Godrej Legacy</p>
+                </div>
+
+                <!-- Stat 2 -->
+                <div class="group">
+                    <p class="text-4xl md:text-5xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-gold-dark via-gold-light to-gold-dark mb-2 group-hover:scale-105 transition-transform duration-500 inline-block">100K+</p>
+                    <div class="w-8 h-[1px] bg-gold/40 mx-auto mb-3"></div>
+                    <p class="text-[10px] md:text-xs text-gray-400 uppercase tracking-[0.2em] font-medium">Families Homed</p>
+                </div>
+
+                <!-- Stat 3 -->
+                <div class="group">
+                    <p class="text-4xl md:text-5xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-gold-dark via-gold-light to-gold-dark mb-2 group-hover:scale-105 transition-transform duration-500 inline-block">500+</p>
+                    <div class="w-8 h-[1px] bg-gold/40 mx-auto mb-3"></div>
+                    <p class="text-[10px] md:text-xs text-gray-400 uppercase tracking-[0.2em] font-medium">Awards &amp; Recognitions</p>
+                </div>
+
+                <!-- Stat 4 -->
+                <div class="group">
+                    <p class="text-4xl md:text-5xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-gold-dark via-gold-light to-gold-dark mb-2 group-hover:scale-105 transition-transform duration-500 inline-block">#1</p>
+                    <div class="w-8 h-[1px] bg-gold/40 mx-auto mb-3"></div>
+                    <p class="text-[10px] md:text-xs text-gray-400 uppercase tracking-[0.2em] font-medium">Worldwide on DJSI &amp; GRESB (Dec 2025)</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================================
+             TRUST BADGE — RERA Only (Verified)
+             ============================================ -->
+        <div class="mt-12 md:mt-16 flex justify-center" data-aos="fade-up" data-aos-delay="300">
+
+            <!-- RERA Badge -->
+            <div class="inline-flex items-center gap-3 bg-white/[0.05] border border-gold/30 px-5 py-3 rounded-sm">
+                <div class="w-8 h-8 rounded-full bg-gold/15 flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                </div>
+                <div>
+                    <p class="text-[9px] text-gray-500 uppercase tracking-[0.2em] font-semibold">RERA Registered</p>
+                    <p class="text-white text-xs font-medium tracking-wide">MAA16636/240326/071131</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+<!-- ========== END DEVELOPER LEGACY SECTION ========== -->
+
+<!-- ========== FAQ SECTION ========== -->
+<section id="faq" class="py-20 md:py-28 bg-[#F9F9F9] relative overflow-hidden">
+
+    <!-- Subtle Background Texture -->
+    <div class="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8L3N2Zz4=')] pointer-events-none"></div>
+
+    <!-- Giant Decorative Letter -->
+    <div class="absolute -left-20 top-40 text-[28rem] font-serif text-navy/[0.03] leading-none select-none pointer-events-none">?</div>
+
+    <!-- Soft Glows -->
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-gold/[0.04] rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-navy/[0.03] rounded-full blur-[100px] pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 relative z-10">
+
+        <!-- Section Header -->
+        <div class="text-center mb-12 md:mb-16" data-aos="fade-up">
+            <div class="flex items-center justify-center gap-4 mb-5">
+                <span class="w-12 md:w-20 h-[1px] bg-gradient-to-r from-transparent to-gold/60"></span>
+                <h2 class="text-gold text-[10px] md:text-xs font-bold tracking-[0.4em] md:tracking-[0.5em] uppercase">Frequently Asked</h2>
+                <span class="w-12 md:w-20 h-[1px] bg-gradient-to-l from-transparent to-gold/60"></span>
+            </div>
+            <h3 class="text-3xl md:text-5xl font-serif text-navy leading-tight mb-5">
+                Your Questions, <br>
+                <span class="italic text-transparent bg-clip-text bg-gradient-to-r from-gold-dark via-gold to-gold-light">Answered.</span>
+            </h3>
+            <p class="text-gray-500 text-sm md:text-base mt-4 max-w-2xl mx-auto font-light tracking-wide leading-relaxed">
+                Everything you need to know before booking a private walkthrough of Godrej Altus.
+            </p>
+        </div>
+
+        <!-- FAQ Accordion -->
+        <div class="space-y-3 md:space-y-4" data-aos="fade-up" data-aos-delay="100">
+
+            <!-- FAQ 1 -->
+            <div class="faq-item group bg-white border border-gray-200 rounded-sm overflow-hidden hover:border-gold/50 transition-all duration-300">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between gap-4 p-5 md:p-6 text-left hover:bg-gold/[0.02] transition-colors duration-300" aria-expanded="false">
+                    <span class="flex items-center gap-4 flex-1">
+                        <span class="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-gold transition-colors duration-300">
+                            <svg class="w-3.5 h-3.5 text-gold group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </span>
+                        <span class="text-sm md:text-base font-semibold text-navy group-hover:text-gold transition-colors">Where is Godrej Altus located?</span>
+                    </span>
+                    <svg class="faq-icon w-5 h-5 text-gold shrink-0 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <div class="px-5 md:px-6 pb-5 md:pb-6 pl-[4.25rem] md:pl-[4.5rem] text-sm md:text-base text-gray-600 font-light leading-relaxed border-t border-gray-100 pt-4">
+                        Godrej Altus is located at <strong class="text-navy font-semibold">11/1908, Sunteck MAXXWorld, Naigaon East Vasai Link Rd, Naigaon East, Mumbai, Tivri, Maharashtra 401208</strong>. Set within Mumbai's flourishing western corridor, it offers seamless connectivity to major highways, business districts, and metro corridors.
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 2 -->
+            <div class="faq-item group bg-white border border-gray-200 rounded-sm overflow-hidden hover:border-gold/50 transition-all duration-300">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between gap-4 p-5 md:p-6 text-left hover:bg-gold/[0.02] transition-colors duration-300" aria-expanded="false">
+                    <span class="flex items-center gap-4 flex-1">
+                        <span class="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-gold transition-colors duration-300">
+                            <svg class="w-3.5 h-3.5 text-gold group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </span>
+                        <span class="text-sm md:text-base font-semibold text-navy group-hover:text-gold transition-colors">What configurations are available at Godrej Altus?</span>
+                    </span>
+                    <svg class="faq-icon w-5 h-5 text-gold shrink-0 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <div class="px-5 md:px-6 pb-5 md:pb-6 pl-[4.25rem] md:pl-[4.5rem] text-sm md:text-base text-gray-600 font-light leading-relaxed border-t border-gray-100 pt-4">
+                        Godrej Altus offers three distinct configurations: <strong class="text-navy font-semibold">3 BHK Premium</strong> (3,076 sq.ft. salable area), <strong class="text-navy font-semibold">4 BHK Majestic</strong> (4,084–4,127 sq.ft. salable area), and <strong class="text-navy font-semibold">4 BHK Palatial</strong> (4,608–4,769 sq.ft. salable area). Each is a distinct interpretation of the Altus philosophy.
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 3 -->
+            <div class="faq-item group bg-white border border-gray-200 rounded-sm overflow-hidden hover:border-gold/50 transition-all duration-300">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between gap-4 p-5 md:p-6 text-left hover:bg-gold/[0.02] transition-colors duration-300" aria-expanded="false">
+                    <span class="flex items-center gap-4 flex-1">
+                        <span class="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-gold transition-colors duration-300">
+                            <svg class="w-3.5 h-3.5 text-gold group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </span>
+                        <span class="text-sm md:text-base font-semibold text-navy group-hover:text-gold transition-colors">What is the starting price of Godrej Altus?</span>
+                    </span>
+                    <svg class="faq-icon w-5 h-5 text-gold shrink-0 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <div class="px-5 md:px-6 pb-5 md:pb-6 pl-[4.25rem] md:pl-[4.5rem] text-sm md:text-base text-gray-600 font-light leading-relaxed border-t border-gray-100 pt-4">
+                        The <strong class="text-navy font-semibold">3 BHK residences start at ₹3.59 Cr*</strong>, while the <strong class="text-navy font-semibold">4 BHK residences start at ₹5.30 Cr*</strong>. The 4 BHK Palatial configuration starts at ₹5.90 Cr*. Additional charges and Government taxes (GST, stamp duty, registration, AMC, IFMS &amp; other statutory levies) are extra as applicable.
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 4 -->
+            <div class="faq-item group bg-white border border-gray-200 rounded-sm overflow-hidden hover:border-gold/50 transition-all duration-300">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between gap-4 p-5 md:p-6 text-left hover:bg-gold/[0.02] transition-colors duration-300" aria-expanded="false">
+                    <span class="flex items-center gap-4 flex-1">
+                        <span class="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-gold transition-colors duration-300">
+                            <svg class="w-3.5 h-3.5 text-gold group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </span>
+                        <span class="text-sm md:text-base font-semibold text-navy group-hover:text-gold transition-colors">When is the possession date?</span>
+                    </span>
+                    <svg class="faq-icon w-5 h-5 text-gold shrink-0 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <div class="px-5 md:px-6 pb-5 md:pb-6 pl-[4.25rem] md:pl-[4.5rem] text-sm md:text-base text-gray-600 font-light leading-relaxed border-t border-gray-100 pt-4">
+                        The expected possession date for Godrej Altus is <strong class="text-navy font-semibold">November 2031</strong>. The project is RERA registered under <strong class="text-navy font-semibold">MAA16636/240326/071131</strong>, ensuring transparency and delivery accountability.
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 5 -->
+            <div class="faq-item group bg-white border border-gray-200 rounded-sm overflow-hidden hover:border-gold/50 transition-all duration-300">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between gap-4 p-5 md:p-6 text-left hover:bg-gold/[0.02] transition-colors duration-300" aria-expanded="false">
+                    <span class="flex items-center gap-4 flex-1">
+                        <span class="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-gold transition-colors duration-300">
+                            <svg class="w-3.5 h-3.5 text-gold group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </span>
+                        <span class="text-sm md:text-base font-semibold text-navy group-hover:text-gold transition-colors">Is Godrej Altus Vastu compliant?</span>
+                    </span>
+                    <svg class="faq-icon w-5 h-5 text-gold shrink-0 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <div class="px-5 md:px-6 pb-5 md:pb-6 pl-[4.25rem] md:pl-[4.5rem] text-sm md:text-base text-gray-600 font-light leading-relaxed border-t border-gray-100 pt-4">
+                        Yes. Every residential unit within Godrej Altus is <strong class="text-navy font-semibold">Vastu compliant</strong>, with each home thoughtfully designed in accordance with time-honoured principles. Vastu compliance has been certified by <strong class="text-navy font-semibold">Chirag Daruwalla (Ganesha's Grace, Ahmedabad)</strong> and is intrinsically embedded into the architectural planning, reinforcing a sense of balance and well-being across the development.
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 6 -->
+            <div class="faq-item group bg-white border border-gray-200 rounded-sm overflow-hidden hover:border-gold/50 transition-all duration-300">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between gap-4 p-5 md:p-6 text-left hover:bg-gold/[0.02] transition-colors duration-300" aria-expanded="false">
+                    <span class="flex items-center gap-4 flex-1">
+                        <span class="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-gold transition-colors duration-300">
+                            <svg class="w-3.5 h-3.5 text-gold group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </span>
+                        <span class="text-sm md:text-base font-semibold text-navy group-hover:text-gold transition-colors">How many total residences are there at Godrej Altus?</span>
+                    </span>
+                    <svg class="faq-icon w-5 h-5 text-gold shrink-0 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <div class="px-5 md:px-6 pb-5 md:pb-6 pl-[4.25rem] md:pl-[4.5rem] text-sm md:text-base text-gray-600 font-light leading-relaxed border-t border-gray-100 pt-4">
+                        Godrej Altus comprises only <strong class="text-navy font-semibold">215 exclusive residences</strong> set across <strong class="text-navy font-semibold">3.06 acres</strong>. This limited collection ensures privacy, exclusivity, and a truly curated community for every resident.
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 7 -->
+            <div class="faq-item group bg-white border border-gray-200 rounded-sm overflow-hidden hover:border-gold/50 transition-all duration-300">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between gap-4 p-5 md:p-6 text-left hover:bg-gold/[0.02] transition-colors duration-300" aria-expanded="false">
+                    <span class="flex items-center gap-4 flex-1">
+                        <span class="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-gold transition-colors duration-300">
+                            <svg class="w-3.5 h-3.5 text-gold group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </span>
+                        <span class="text-sm md:text-base font-semibold text-navy group-hover:text-gold transition-colors">What amenities are available at Godrej Altus?</span>
+                    </span>
+                    <svg class="faq-icon w-5 h-5 text-gold shrink-0 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <div class="px-5 md:px-6 pb-5 md:pb-6 pl-[4.25rem] md:pl-[4.5rem] text-sm md:text-base text-gray-600 font-light leading-relaxed border-t border-gray-100 pt-4">
+                        Godrej Altus features over <strong class="text-navy font-semibold">10+ curated amenities</strong> spread across an expansive <strong class="text-navy font-semibold">20,000 sq.ft. sky terrace</strong>. These include a Private Mini Theatre, Infinity Pool &amp; Jacuzzi, Sky Meditation Deck, Padel Court, Sky Hub &amp; Star Gazing, Reading Cove &amp; Library, Kids' Play &amp; Crèche, BBQ Deck &amp; Amphitheatre, Kite Flying Plaza, Wellness Zone &amp; Spa, Multipurpose Hall, and Gazeebo &amp; Pebble Plaza.
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 8 -->
+            <div class="faq-item group bg-white border border-gray-200 rounded-sm overflow-hidden hover:border-gold/50 transition-all duration-300">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between gap-4 p-5 md:p-6 text-left hover:bg-gold/[0.02] transition-colors duration-300" aria-expanded="false">
+                    <span class="flex items-center gap-4 flex-1">
+                        <span class="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-gold transition-colors duration-300">
+                            <svg class="w-3.5 h-3.5 text-gold group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </span>
+                        <span class="text-sm md:text-base font-semibold text-navy group-hover:text-gold transition-colors">Who is the developer of Godrej Altus?</span>
+                    </span>
+                    <svg class="faq-icon w-5 h-5 text-gold shrink-0 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <div class="px-5 md:px-6 pb-5 md:pb-6 pl-[4.25rem] md:pl-[4.5rem] text-sm md:text-base text-gray-600 font-light leading-relaxed border-t border-gray-100 pt-4">
+                        Godrej Altus is developed by <strong class="text-navy font-semibold">Godrej Properties</strong>, the real estate arm of the Godrej Group — one of India's most trusted conglomerates since 1897. Godrej Properties brings a philosophy of innovation, sustainability, and excellence to every development.
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 9 -->
+            <div class="faq-item group bg-white border border-gray-200 rounded-sm overflow-hidden hover:border-gold/50 transition-all duration-300">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between gap-4 p-5 md:p-6 text-left hover:bg-gold/[0.02] transition-colors duration-300" aria-expanded="false">
+                    <span class="flex items-center gap-4 flex-1">
+                        <span class="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-gold transition-colors duration-300">
+                            <svg class="w-3.5 h-3.5 text-gold group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </span>
+                        <span class="text-sm md:text-base font-semibold text-navy group-hover:text-gold transition-colors">How can I schedule a site visit?</span>
+                    </span>
+                    <svg class="faq-icon w-5 h-5 text-gold shrink-0 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <div class="px-5 md:px-6 pb-5 md:pb-6 pl-[4.25rem] md:pl-[4.5rem] text-sm md:text-base text-gray-600 font-light leading-relaxed border-t border-gray-100 pt-4">
+                        You can schedule a private walkthrough by calling <a href="tel:919702053758" class="text-gold font-semibold hover:underline">+91 97020 53758</a> or filling out the enquiry form on this page. Our team will arrange a personalized visit at your convenience and guide you through every detail of the residences, amenities, and specifications.
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 10 -->
+            <div class="faq-item group bg-white border border-gray-200 rounded-sm overflow-hidden hover:border-gold/50 transition-all duration-300">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between gap-4 p-5 md:p-6 text-left hover:bg-gold/[0.02] transition-colors duration-300" aria-expanded="false">
+                    <span class="flex items-center gap-4 flex-1">
+                        <span class="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-gold transition-colors duration-300">
+                            <svg class="w-3.5 h-3.5 text-gold group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </span>
+                        <span class="text-sm md:text-base font-semibold text-navy group-hover:text-gold transition-colors">What is the RERA registration number?</span>
+                    </span>
+                    <svg class="faq-icon w-5 h-5 text-gold shrink-0 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <div class="px-5 md:px-6 pb-5 md:pb-6 pl-[4.25rem] md:pl-[4.5rem] text-sm md:text-base text-gray-600 font-light leading-relaxed border-t border-gray-100 pt-4">
+                        Godrej Altus is registered under <strong class="text-navy font-semibold">RERA No. MAA16636/240326/071131</strong>. RERA registration ensures transparency, legal compliance, and delivery accountability — giving you complete peace of mind as a buyer.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom CTA -->
+        <div class="text-center mt-12 md:mt-16" data-aos="fade-up" data-aos-delay="200">
+            <p class="text-gray-500 text-sm font-light mb-5">Still have questions? We're here to help.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="tel:919702053758" class="group relative overflow-hidden inline-flex items-center justify-center gap-2 bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-white px-8 py-3.5 rounded-sm font-semibold tracking-widest text-[11px] uppercase transition-all duration-300 shadow-[0_10px_30px_rgba(217,26,91,0.3)] hover:shadow-[0_15px_40px_rgba(217,26,91,0.5)] hover:-translate-y-0.5">
+                    <span class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/40 to-transparent"></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="relative z-10 h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                    </svg>
+                    <span class="relative z-10">Call 97020 53758</span>
+                </a>
+                <a href="#contact" class="border border-navy/20 hover:border-gold hover:bg-gold/5 text-navy hover:text-gold px-8 py-3.5 rounded-sm font-semibold tracking-widest text-[11px] uppercase transition-all duration-300 flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    Send an Enquiry
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- ========== END FAQ SECTION ========== -->
+
+<!-- ========== FAQ ACCORDION SCRIPT ========== -->
+<script>
+    function toggleFaq(button) {
+        const item = button.closest('.faq-item');
+        const answer = item.querySelector('.faq-answer');
+        const icon = item.querySelector('.faq-icon');
+        const isOpen = button.getAttribute('aria-expanded') === 'true';
+
+        // Close all other FAQ items (accordion behavior — only one open at a time)
+        document.querySelectorAll('.faq-item').forEach(otherItem => {
+            if (otherItem !== item) {
+                const otherButton = otherItem.querySelector('button');
+                const otherAnswer = otherItem.querySelector('.faq-answer');
+                const otherIcon = otherItem.querySelector('.faq-icon');
+                otherButton.setAttribute('aria-expanded', 'false');
+                otherAnswer.style.maxHeight = '0';
+                otherIcon.style.transform = 'rotate(0deg)';
+            }
+        });
+
+        // Toggle current item
+        if (isOpen) {
+            button.setAttribute('aria-expanded', 'false');
+            answer.style.maxHeight = '0';
+            icon.style.transform = 'rotate(0deg)';
+        } else {
+            button.setAttribute('aria-expanded', 'true');
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+            icon.style.transform = 'rotate(180deg)';
+        }
+    }
+
+    // Recalculate open FAQ height on window resize (prevents clipped text)
+    window.addEventListener('resize', () => {
+        document.querySelectorAll('.faq-item button[aria-expanded="true"]').forEach(button => {
+            const answer = button.closest('.faq-item').querySelector('.faq-answer');
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+        });
+    });
+</script>
+<!-- ========== END FAQ SCRIPT ========== -->
 
 <!-- ========== NEIGHBOURHOOD SECTION ========== -->
 <section id="location" class="py-16 md:py-24 bg-white relative w-full overflow-hidden">
@@ -1346,23 +2555,20 @@ body {
 
 <!-- ================= FOOTER ================= -->
 <footer id="contact" class="bg-navy-dark text-gray-300 font-sans pt-20 pb-10 relative overflow-hidden w-full m-0" style="margin-bottom:0;">
-    
+
     <!-- Subtle Background Texture & Glow -->
     <div class="absolute inset-0 opacity-[0.05] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] pointer-events-none"></div>
     <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-gold/[0.03] rounded-full blur-[100px] pointer-events-none"></div>
 
     <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-        
+
         <!-- Top Section: 4 Columns -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 pb-16 border-b border-white/10">
-            
+
             <!-- Column 1: Brand & About -->
             <div>
                 <a href="index.html" class="flex items-center gap-3 mb-6 group">
-                    <!-- Logo -->
                     <img src="images/godrejlogo.png" alt="Godrej Altus Logo" class="h-12 w-auto object-contain opacity-90 group-hover:opacity-100 transition-opacity" onerror="this.style.display='none';">
-                    
-                    <!-- Brand Text (always visible) -->
                     <div class="flex flex-col">
                         <span class="text-white font-serif text-xl tracking-[0.15em] leading-none font-semibold">GODREJ</span>
                         <span class="text-gold font-sans text-[10px] tracking-[0.3em] uppercase mt-1">Altus</span>
@@ -1396,26 +2602,26 @@ body {
                 <ul class="space-y-4 text-sm font-light">
                     <li class="flex items-start gap-3">
                         <svg class="w-5 h-5 text-gold shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                        <span>Plot No. 99, Besides GMDC,<br>Vastrapur, Ahmedabad, Gujarat</span>
+                        <span>11/1908, Sunteck MAXXWorld, Naigaon East Vasai Link Rd,<br>Naigaon East, Mumbai, Tivri, Maharashtra 401208</span>
                     </li>
                     <li class="flex items-center gap-3">
                         <svg class="w-5 h-5 text-gold shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-                        <a href="tel:9099446667" class="hover:text-gold transition-colors">+91 9099446667</a>
+                        <a href="tel:919702053758" class="hover:text-gold transition-colors">+91 97020 53758</a>
                     </li>
                     <li class="flex items-center gap-3">
                         <svg class="w-5 h-5 text-gold shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                        <a href="mailto:contact@godrejaltusahmedabad.co.in" class="hover:text-gold transition-colors break-all">contact@godrejaltusahmedabad.co.in</a>
+                        <a href="mailto:care@referindia.in" class="hover:text-gold transition-colors break-all">care@referindia.in</a>
                     </li>
                 </ul>
 
-                <!-- Social Icons (correct Facebook icon + larger size) -->
+                <!-- Social Icons -->
                 <div class="flex gap-3 mt-6">
-                    <a href="https://www.facebook.com/share/p/1C8PL4T7gt/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold hover:border-gold hover:text-navy-dark transition-all duration-300">
+                    <a href="https://www.facebook.com/referindiaofficial" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold hover:border-gold hover:text-navy-dark transition-all duration-300">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M22 12.07C22 6.48 17.52 2 11.93 2S1.86 6.48 1.86 12.07c0 5.02 3.66 9.18 8.44 9.93v-7.03H7.9v-2.9h2.4V9.85c0-2.38 1.42-3.7 3.58-3.7 1.04 0 2.12.19 2.12.19v2.33h-1.2c-1.18 0-1.55.73-1.55 1.48v1.78h2.63l-.42 2.9h-2.21V22c4.78-.75 8.44-4.91 8.44-9.93z"/>
                         </svg>
                     </a>
-                    <a href="https://www.instagram.com/royalsproperty91?obrf=MW95dnk1d3N5emRtOA==" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold hover:border-gold hover:text-navy-dark transition-all duration-300">
+                    <a href="https://www.instagram.com/referindia" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold hover:border-gold hover:text-navy-dark transition-all duration-300">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
                         </svg>
@@ -1428,10 +2634,10 @@ body {
                 <h4 class="text-white font-serif text-xl mb-6">Request Callback</h4>
                 <form class="space-y-4" onsubmit="event.preventDefault(); alert('Thank you! We will call you back shortly.'); this.reset();">
                     <div>
-                        <input type="text" placeholder="Your Full Name" required class="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gold focus:bg-white/10 transition-colors">
+                        <input type="text" name="name" placeholder="Your Full Name" required class="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gold focus:bg-white/10 transition-colors">
                     </div>
                     <div>
-                        <input type="tel" placeholder="Phone Number" required class="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gold focus:bg-white/10 transition-colors">
+                        <input type="tel" name="phone" placeholder="Phone Number" required class="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gold focus:bg-white/10 transition-colors">
                     </div>
                     <button type="submit" class="w-full bg-gold hover:bg-gold-light text-navy-dark font-bold py-3 rounded-sm transition-all duration-300 text-xs tracking-[0.15em] uppercase shadow-[0_8px_20px_rgba(217,26,91,0.3)] hover:shadow-[0_12px_25px_rgba(217,26,91,0.5)] hover:-translate-y-0.5">
                         Submit Enquiry
@@ -1441,22 +2647,17 @@ body {
 
         </div>
 
+        <!-- ================= DISCLAIMER (compact) ================= -->
+        <div class="pt-6 pb-6 border-b border-white/10">
+            <p class="text-[10px] leading-relaxed text-gray-500 font-light">
+                <span class="text-gold/80 font-semibold uppercase tracking-wider">Disclaimer:</span>
+                This website is for informational purposes only and does not constitute an offer or contract. All images, specifications, and pricing are indicative and subject to change. This is not the official website of Godrej Properties Ltd. — we are an authorised channel partner. Trademarks belong to their respective owners. Please verify all details and RERA registration independently before purchase.
+            </p>
+        </div>
+
         <!-- Bottom Section: Copyright & Legal -->
         <div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-light text-gray-500">
             <p>&copy; 2026 Godrej Altus. All Rights Reserved.</p>
-            
-            <div class="flex flex-wrap justify-center gap-4 md:gap-6">
-                <a href="#" class="hover:text-gold transition-colors">Privacy Policy</a>
-                <span class="hidden md:inline text-white/10">|</span>
-                <a href="#" class="hover:text-gold transition-colors">Terms of Use</a>
-                <span class="hidden md:inline text-white/10">|</span>
-                <a href="#" class="hover:text-gold transition-colors">Sitemap</a>
-            </div>
-        </div>
-
-        <!-- Disclaimer Text -->
-        <div class="mt-6 text-[10px] text-gray-600 leading-relaxed text-justify md:text-center">
-            <p>Disclaimer: The content provided on this website is for informational purposes only and does not constitute an offer or contract. The images, dimensions, and specifications shown are indicative and subject to change without prior notice. Godrej Altus is a registered project under RERA No. MAA16636/240326/071131. This is a microsite created by an authorized channel partner.</p>
         </div>
 
     </div>
@@ -1570,5 +2771,146 @@ body {
         disable: 'mobile'    // optional: disable on mobile to prevent jank (remove if you want animations on mobile)
     });
 </script>
+
+
+<!-- navbar js -->
+
+<script>
+    (function () {
+        var menuBtn = document.getElementById('menuToggleBtn');
+        var dropdown = document.getElementById('navDropdown');
+        if (!menuBtn || !dropdown) return;
+
+        function setOpen(open) {
+            menuBtn.classList.toggle('is-open', open);
+            dropdown.classList.toggle('is-open', open);
+            menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            document.body.classList.toggle('menu-open', open);
+        }
+
+        // Toggle on button click
+        menuBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            setOpen(!dropdown.classList.contains('is-open'));
+        });
+
+        // Close when clicking outside the header
+        document.addEventListener('click', function (e) {
+            if (!dropdown.classList.contains('is-open')) return;
+            if (e.target.closest('header')) return;
+            setOpen(false);
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') setOpen(false);
+        });
+
+        // Close when a nav link is clicked
+        dropdown.querySelectorAll('a').forEach(function (link) {
+            link.addEventListener('click', function () { setOpen(false); });
+        });
+
+        // Close on resize to desktop
+        window.addEventListener('resize', function () {
+            if (window.innerWidth >= 1024) setOpen(false);
+        });
+
+        // Close when the user scrolls down
+        var lastScrollY = window.scrollY;
+        window.addEventListener('scroll', function () {
+            if (!dropdown.classList.contains('is-open')) return;
+            if (window.scrollY > lastScrollY && window.scrollY > 10) {
+                setOpen(false);
+            }
+            lastScrollY = window.scrollY;
+        }, { passive: true });
+    })();
+</script>
+
+<!-- Floating WhatsApp Button -->
+<a href="https://wa.me/919702053758?text=Hello%2C%20I%20have%20a%20query%20from%20your%20website."
+   target="_blank"
+   rel="noopener noreferrer"
+   class="fixed right-6 z-50 bg-[#25D366] hover:bg-[#20BA5A] 
+          text-white w-14 h-14 rounded-full flex items-center justify-center 
+          shadow-lg transition-all duration-300 hover:scale-110"
+   style="bottom:1.5rem;"
+   aria-label="Chat with us on WhatsApp">
+
+    <i class="fa-brands fa-whatsapp text-3xl"></i>
+
+</a>
+
+<!-- ================= BACK TO TOP BUTTON ================= -->
+<button id="backToTopBtn"
+        type="button"
+        aria-label="Back to top"
+        style="position:fixed; bottom:5.75rem; right:1.5rem; z-index:9999;
+               width:3.5rem; height:3.5rem; border-radius:9999px;
+               background:#1a020a; color:#ff4fa3; border:1px solid rgba(255,79,163,.35);
+               cursor:pointer;
+               display:flex; align-items:center; justify-content:center;
+               box-shadow:0 10px 25px rgba(26,2,10,.45);
+               opacity:0; visibility:hidden; transform:translateY(12px);
+               transition:opacity .3s ease, transform .3s ease, visibility .3s, background .3s, color .3s, border-color .3s;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none"
+         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/>
+    </svg>
+</button>
+
+<script>
+    (function () {
+        function init() {
+            var btn = document.getElementById('backToTopBtn');
+            if (!btn) { console.warn('[BackToTop] button not found'); return; }
+
+            var SHOW_AFTER = 300; // px
+
+            function show() {
+                btn.style.opacity = '1';
+                btn.style.visibility = 'visible';
+                btn.style.transform = 'translateY(0)';
+            }
+            function hide() {
+                btn.style.opacity = '0';
+                btn.style.visibility = 'hidden';
+                btn.style.transform = 'translateY(12px)';
+            }
+
+            function onScroll() {
+                if (window.pageYOffset > SHOW_AFTER) show();
+                else hide();
+            }
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+
+            btn.addEventListener('click', function () {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Hover → pink fill, deep plum icon
+            btn.addEventListener('mouseenter', function () {
+                btn.style.background = '#ff4fa3';
+                btn.style.color = '#1a020a';
+                btn.style.borderColor = '#ff4fa3';
+            });
+            btn.addEventListener('mouseleave', function () {
+                btn.style.background = '#1a020a';
+                btn.style.color = '#ff4fa3';
+                btn.style.borderColor = 'rgba(255,79,163,.35)';
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    })();
+</script>
+
 </body>
 </html>
